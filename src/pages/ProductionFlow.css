@@ -36,6 +36,13 @@
   padding: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
   margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-pills .nav-item {
+  margin-bottom: 5px;
 }
 
 .nav-pills .nav-link {
@@ -155,10 +162,64 @@
   background-color: rgba(68, 129, 235, 0.05);
 }
 
+/* Loading container styles */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+/* Card view for mobile */
+.order-card {
+  display: none;
+  background-color: white;
+  border-radius: var(--border-radius-sm);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 10px;
+}
+
+.order-card-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.order-card-body {
+  margin-bottom: 12px;
+}
+
+.order-card-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.order-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
 @media (max-width: 992px) {
   .production-flow-container {
     max-width: 90%;
     margin: 30px auto;
+  }
+  
+  .nav-pills .nav-link {
+    padding: 8px 12px;
+    font-size: 0.9rem;
   }
 }
 
@@ -169,8 +230,73 @@
     padding: 20px;
   }
   
+  .production-flow-title {
+    font-size: 1.5rem;
+  }
+  
+  .nav-pills {
+    padding: 5px;
+  }
+  
+  .nav-pills .nav-link {
+    padding: 8px 10px;
+    margin: 2px;
+    font-size: 0.85rem;
+  }
+  
+  .orders-container {
+    padding: 15px;
+  }
+  
   .table th, 
   .table td {
     padding: 12px;
+  }
+  
+  .btn-warning,
+  .btn-success {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .production-flow-container {
+    padding: 15px;
+  }
+  
+  .table {
+    display: none;
+  }
+  
+  .order-card {
+    display: block;
+  }
+  
+  .nav-pills {
+    justify-content: space-between;
+  }
+  
+  .nav-pills .nav-item {
+    flex: 1;
+    margin: 0 2px;
+  }
+  
+  .nav-pills .nav-link {
+    padding: 8px 5px;
+    margin: 2px;
+    font-size: 0.75rem;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .orders-container {
+    padding: 10px;
+  }
+  
+  .btn-warning,
+  .btn-success {
+    width: 100%;
+    margin-top: 5px;
   }
 }

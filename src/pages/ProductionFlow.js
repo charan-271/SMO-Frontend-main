@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Modal, Button, Spinner } from "react-bootstrap";
+import { Modal, Button, Spinner, Badge } from "react-bootstrap";
 import { FaArrowRight, FaCheckCircle, FaTools, FaSyncAlt } from "react-icons/fa";
 import "./ProductionFlow.css";
 
@@ -98,6 +98,60 @@ const ProductionFlow = () => {
     setShowModal(true);
   };
 
+  const renderOrderCards = () => {
+    return filteredOrders.map((order) => {
+      const [startAction, completeAction] = getActions(selectedStage.title);
+      return (
+        <div className="order-card" key={order.id}>
+          <div className="order-card-header">
+            <h5 className="order-card-title">#{order.order_number}</h5>
+            <Badge bg="info">{order.current_stage}</Badge>
+          </div>
+          <div className="order-card-body">
+            <div className="order-card-detail">
+              <span>Order ID:</span>
+              <span>{order.id}</span>
+            </div>
+            <div className="order-card-detail">
+              <span>Product:</span>
+              <span>{order.product}</span>
+            </div>
+            <div className="order-card-detail">
+              <span>Quantity:</span>
+              <span>{order.quantity}</span>
+            </div>
+          </div>
+          <div className="order-card-actions">
+            {startAction && (
+              <Button
+                variant="warning"
+                size="sm"
+                className="w-100 me-2"
+                onClick={() => handleAction(order.id, startAction)}
+                disabled={
+                  order.current_stage === startAction || order.current_stage === completeAction
+                }
+              >
+                <FaTools className="me-2" /> Start
+              </Button>
+            )}
+            {completeAction && (
+              <Button
+                variant="success"
+                size="sm"
+                className="w-100"
+                onClick={() => handleAction(order.id, completeAction)}
+                disabled={order.current_stage === completeAction}
+              >
+                <FaCheckCircle className="me-2" /> Complete
+              </Button>
+            )}
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="production-flow-container">
       <h2 className="production-flow-title">Production Workflow</h2>
@@ -142,56 +196,61 @@ const ProductionFlow = () => {
                 <p className="text-muted">No orders in this stage.</p>
               </div>
             ) : (
-              <div className="table-responsive">
-                <table className="table table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Order Number</th>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th colSpan="2" className="text-center">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredOrders.map((order) => {
-                      const [startAction, completeAction] = getActions(selectedStage.title);
-                      return (
-                        <tr key={order.id}>
-                          <td>{order.id}</td>
-                          <td>{order.order_number}</td>
-                          <td>{order.product}</td>
-                          <td>{order.quantity}</td>
-                          <td className="text-center">
-                            {startAction && (
-                              <button
-                                className="btn btn-warning btn-sm"
-                                onClick={() => handleAction(order.id, startAction)}
-                                disabled={
-                                  order.current_stage === startAction || order.current_stage === completeAction
-                                }
-                              >
-                                <FaTools className="me-2" /> Start
-                              </button>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {completeAction && (
-                              <button
-                                className="btn btn-success btn-sm"
-                                onClick={() => handleAction(order.id, completeAction)}
-                                disabled={order.current_stage === completeAction}
-                              >
-                                <FaCheckCircle className="me-2" /> Complete
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <>
+                <div className="table-responsive">
+                  <table className="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Order Number</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th colSpan="2" className="text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredOrders.map((order) => {
+                        const [startAction, completeAction] = getActions(selectedStage.title);
+                        return (
+                          <tr key={order.id}>
+                            <td>{order.id}</td>
+                            <td>{order.order_number}</td>
+                            <td>{order.product}</td>
+                            <td>{order.quantity}</td>
+                            <td className="text-center">
+                              {startAction && (
+                                <button
+                                  className="btn btn-warning btn-sm"
+                                  onClick={() => handleAction(order.id, startAction)}
+                                  disabled={
+                                    order.current_stage === startAction || order.current_stage === completeAction
+                                  }
+                                >
+                                  <FaTools className="me-2" /> Start
+                                </button>
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {completeAction && (
+                                <button
+                                  className="btn btn-success btn-sm"
+                                  onClick={() => handleAction(order.id, completeAction)}
+                                  disabled={order.current_stage === completeAction}
+                                >
+                                  <FaCheckCircle className="me-2" /> Complete
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Card view for mobile displays */}
+                {renderOrderCards()}
+              </>
             )}
           </div>
         )
