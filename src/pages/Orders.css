@@ -1,5 +1,7 @@
-.container-order{
-    margin-left: 100px;
+.container-order {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
 }
 
 /* Modern Orders Page Styling */
@@ -342,13 +344,13 @@
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .container-order {
-    margin-left: 70px;
+    padding: 0 15px;
   }
 }
 
 @media (max-width: 768px) {
   .container-order {
-    margin-left: 0;
+    padding: 0 10px;
   }
   
   .orders-container {

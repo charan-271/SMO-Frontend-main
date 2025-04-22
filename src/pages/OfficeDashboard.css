@@ -1,9 +1,13 @@
 .container {
-    margin-left: 50px;
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
 }
 
 .container-fluid {
   padding: 15px;
+  margin: 0 auto;
+  max-width: 1400px;
 }
 
 /* Modern Office Dashboard Styling */
@@ -156,6 +160,10 @@
 
 /* Enhanced mobile responsiveness */
 @media (max-width: 768px) {
+  .container, .container-fluid {
+    padding: 0 15px;
+  }
+  
   .dashboard-container {
     padding: 15px;
     margin-bottom: 20px;

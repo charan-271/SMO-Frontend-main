@@ -1,3 +1,4 @@
+/* Global styles for page centering */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,47 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Center all content globally */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Make all Bootstrap containers center their content */
+.container, .container-fluid {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ensure tables and forms take proper width while being centered */
+.table, .form, .card, .table-responsive {
+  width: 100%;
+}
+
+/* Ensure rows take full width */
+.row {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-container {
+    padding: 10px;
+  }
 }

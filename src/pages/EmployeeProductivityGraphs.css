@@ -1,5 +1,7 @@
 .container-Graph {
-  margin-left: 120px;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
 }
 
 /* Modern chart styling */
@@ -50,6 +52,9 @@
 .accordion {
   --bs-accordion-bg: transparent;
   --bs-accordion-border-color: transparent;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .accordion-item {
@@ -116,10 +121,20 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container-Graph {
-    margin-left: 0;
+    padding: 0 15px;
   }
   
   .card.shadow-sm {
+    padding: 15px !important;
+  }
+  
+  .container.py-5 {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .container.py-5 {
     padding: 15px !important;
   }
 }
@@ -133,4 +148,15 @@
   border-radius: 16px;
   padding: 30px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Row centering */
+.row {
+  width: 100%;
+  justify-content: center;
 }
