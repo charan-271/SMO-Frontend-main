@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { QRCodeCanvas } from "qrcode.react";
 import { Modal, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./EmployeeList.css";
-import { FaSearch, FaUserEdit, FaTrash, FaChartLine, FaHistory, FaQrcode, FaTimes } from "react-icons/fa";
+import { FaSearch, FaUserEdit, FaTrash, FaChartLine, FaHistory, FaQrcode, FaTimes, FaFilter, FaEllipsisV } from "react-icons/fa";
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
@@ -18,6 +18,8 @@ const EmployeeList = () => {
     const [historySearchTerm, setHistorySearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [showMobileActionMenu, setShowMobileActionMenu] = useState(null);
+    const mobileMenuRef = useRef(null);
     const employeesPerPage = 6;
 
     useEffect(() => {
@@ -32,6 +34,20 @@ const EmployeeList = () => {
                 console.error("Error fetching employees:", error);
                 setLoading(false);
             });
+    }, []);
+
+    useEffect(() => {
+        // Close mobile action menu when clicking outside
+        function handleClickOutside(event) {
+            if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+                setShowMobileActionMenu(null);
+            }
+        }
+        
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
 
     useEffect(() => {
@@ -86,6 +102,10 @@ const EmployeeList = () => {
         window.print();
     };
 
+    const toggleMobileActionMenu = (empId) => {
+        setShowMobileActionMenu(showMobileActionMenu === empId ? null : empId);
+    };
+
     // Paginate employee data
     const indexOfLastEmployee = currentPage * employeesPerPage;
     const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
@@ -93,6 +113,10 @@ const EmployeeList = () => {
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+        // Scroll to top on mobile when changing pages
+        if (window.innerWidth <= 768) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
@@ -113,6 +137,63 @@ const EmployeeList = () => {
             );
         }
     }, [historySearchTerm, historyData]);
+    
+    // Render mobile employee card
+    const renderMobileEmployeeCard = (emp) => {
+        return (
+            <div key={emp.id} className="employee-card-mobile">
+                <div className="employee-card-header">
+                    <h5 className="employee-name">{emp.name}</h5>
+                    <button 
+                        className="mobile-action-toggle"
+                        onClick={() => toggleMobileActionMenu(emp.id)}
+                        aria-label="Employee actions"
+                    >
+                        <FaEllipsisV />
+                    </button>
+                    
+                    {showMobileActionMenu === emp.id && (
+                        <div className="mobile-action-menu" ref={mobileMenuRef}>
+                            <button 
+                                className="mobile-action-item"
+                                onClick={() => alert("Edit functionality to be implemented")}
+                            >
+                                <FaUserEdit /> Edit
+                            </button>
+                            <button 
+                                className="mobile-action-item"
+                                onClick={() => deleteEmployee(emp.id)}
+                            >
+                                <FaTrash /> Delete
+                            </button>
+                            <button 
+                                className="mobile-action-item"
+                                onClick={() => alert("Analyze Clicked!")}
+                            >
+                                <FaChartLine /> Analytics
+                            </button>
+                            <button 
+                                className="mobile-action-item"
+                                onClick={() => fetchHistory(emp.id)}
+                            >
+                                <FaHistory /> History
+                            </button>
+                            <button 
+                                className="mobile-action-item"
+                                onClick={() => handleGenerateQR(emp)}
+                            >
+                                <FaQrcode /> QR Code
+                            </button>
+                        </div>
+                    )}
+                </div>
+                <div className="employee-card-content">
+                    <p className="employee-rfid">RFID: {emp.rfid}</p>
+                    <span className="employee-role">Worker</span>
+                </div>
+            </div>
+        );
+    };
     
     return (
         <div className="container-fluid py-4">
@@ -138,55 +219,63 @@ const EmployeeList = () => {
                 ) : (
                     <>
                         {currentEmployees.length > 0 ? (
-                            <div className="row g-4">
-                                {currentEmployees.map(emp => (
-                                    <div key={emp.id} className="col-lg-4 col-md-6">
-                                        <div className="employee-card">
-                                            <div className="employee-card-body">
-                                                <h5 className="employee-name">{emp.name}</h5>
-                                                <p className="employee-email">RFID: {emp.rfid}</p>
-                                                <span className="employee-role">Worker</span>
-                                                
-                                                <div className="employee-actions">
-                                                    <button 
-                                                        className="employee-action-btn edit"
-                                                        onClick={() => alert("Edit functionality to be implemented")}
-                                                    >
-                                                        <FaUserEdit /> Edit
-                                                    </button>
-                                                    <button 
-                                                        className="employee-action-btn delete"
-                                                        onClick={() => deleteEmployee(emp.id)}
-                                                    >
-                                                        <FaTrash /> Delete
-                                                    </button>
-                                                </div>
-                                                
-                                                <div className="d-flex gap-2 mt-3">
-                                                    <button 
-                                                        className="btn btn-outline-primary rounded-pill btn-sm"
-                                                        onClick={() => alert("Analyze Clicked!")}
-                                                    >
-                                                        <FaChartLine className="me-1" /> Analytics
-                                                    </button>
-                                                    <button 
-                                                        className="btn btn-outline-info rounded-pill btn-sm"
-                                                        onClick={() => fetchHistory(emp.id)}
-                                                    >
-                                                        <FaHistory className="me-1" /> History
-                                                    </button>
-                                                    <button 
-                                                        className="btn btn-outline-dark rounded-pill btn-sm"
-                                                        onClick={() => handleGenerateQR(emp)}
-                                                    >
-                                                        <FaQrcode className="me-1" /> QR Code
-                                                    </button>
+                            <>
+                                {/* Desktop View */}
+                                <div className="row g-4 d-none d-md-flex">
+                                    {currentEmployees.map(emp => (
+                                        <div key={emp.id} className="col-lg-4 col-md-6">
+                                            <div className="employee-card">
+                                                <div className="employee-card-body">
+                                                    <h5 className="employee-name">{emp.name}</h5>
+                                                    <p className="employee-email">RFID: {emp.rfid}</p>
+                                                    <span className="employee-role">Worker</span>
+                                                    
+                                                    <div className="employee-actions">
+                                                        <button 
+                                                            className="employee-action-btn edit"
+                                                            onClick={() => alert("Edit functionality to be implemented")}
+                                                        >
+                                                            <FaUserEdit /> Edit
+                                                        </button>
+                                                        <button 
+                                                            className="employee-action-btn delete"
+                                                            onClick={() => deleteEmployee(emp.id)}
+                                                        >
+                                                            <FaTrash /> Delete
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div className="d-flex gap-2 mt-3">
+                                                        <button 
+                                                            className="btn btn-outline-primary rounded-pill btn-sm"
+                                                            onClick={() => alert("Analyze Clicked!")}
+                                                        >
+                                                            <FaChartLine className="me-1" /> Analytics
+                                                        </button>
+                                                        <button 
+                                                            className="btn btn-outline-info rounded-pill btn-sm"
+                                                            onClick={() => fetchHistory(emp.id)}
+                                                        >
+                                                            <FaHistory className="me-1" /> History
+                                                        </button>
+                                                        <button 
+                                                            className="btn btn-outline-dark rounded-pill btn-sm"
+                                                            onClick={() => handleGenerateQR(emp)}
+                                                        >
+                                                            <FaQrcode className="me-1" /> QR Code
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                                
+                                {/* Mobile View */}
+                                <div className="employee-mobile-list d-md-none">
+                                    {currentEmployees.map(emp => renderMobileEmployeeCard(emp))}
+                                </div>
+                            </>
                         ) : (
                             <div className="no-employees">
                                 <h4>No employees found</h4>
@@ -197,22 +286,46 @@ const EmployeeList = () => {
                         {/* Pagination Controls */}
                         {filteredEmployees.length > employeesPerPage && (
                             <div className="pagination mt-4">
-                                {Array.from({ length: totalPages }, (_, index) => (
-                                    <button
-                                        key={index + 1}
-                                        className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
-                                        onClick={() => handlePageChange(index + 1)}
+                                {/* Mobile Pagination - Previous/Next Style */}
+                                <div className="d-md-none mobile-pagination">
+                                    <button 
+                                        className="page-nav-btn" 
+                                        disabled={currentPage === 1}
+                                        onClick={() => handlePageChange(currentPage - 1)}
                                     >
-                                        {index + 1}
+                                        Prev
                                     </button>
-                                ))}
+                                    <span className="page-indicator">
+                                        {currentPage} / {totalPages}
+                                    </span>
+                                    <button 
+                                        className="page-nav-btn" 
+                                        disabled={currentPage === totalPages}
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                                
+                                {/* Desktop Pagination - Number Buttons */}
+                                <div className="d-none d-md-flex desktop-pagination">
+                                    {Array.from({ length: totalPages }, (_, index) => (
+                                        <button
+                                            key={index + 1}
+                                            className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                                            onClick={() => handlePageChange(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </>
                 )}
             </div>
 
-            {/* Modal for Showing History */}
+            {/* Mobile-optimized Modal for Showing History */}
             {showHistoryModal && (
                 <div className="modal-overlay" onClick={() => setShowHistoryModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -233,30 +346,63 @@ const EmployeeList = () => {
                         </div>
 
                         {filteredHistoryData.length > 0 ? (
-                            <div className="table-responsive task-table">
-                                <table className="table table-hover mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Order Number</th>
-                                            <th>Step Name</th>
-                                            <th>Machine Number</th>
-                                            <th>Target</th>
-                                            <th>Working Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredHistoryData.map((record, idx) => (
-                                            <tr key={idx}>
-                                                <td>#{record.order_Number || "N/A"}</td>
-                                                <td>{record.Step_Name || "N/A"}</td>
-                                                <td>{record.machine_number || "N/A"}</td>
-                                                <td>{record.target || 0}</td>
-                                                <td>{record.working_date ? new Date(record.working_date).toLocaleDateString() : "N/A"}</td>
+                            <>
+                                {/* Desktop History Table */}
+                                <div className="table-responsive task-table d-none d-md-block">
+                                    <table className="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Order Number</th>
+                                                <th>Step Name</th>
+                                                <th>Machine Number</th>
+                                                <th>Target</th>
+                                                <th>Working Date</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            {filteredHistoryData.map((record, idx) => (
+                                                <tr key={idx}>
+                                                    <td>#{record.order_Number || "N/A"}</td>
+                                                    <td>{record.Step_Name || "N/A"}</td>
+                                                    <td>{record.machine_number || "N/A"}</td>
+                                                    <td>{record.target || 0}</td>
+                                                    <td>{record.working_date ? new Date(record.working_date).toLocaleDateString() : "N/A"}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                {/* Mobile History Cards */}
+                                <div className="task-cards d-md-none">
+                                    {filteredHistoryData.map((record, idx) => (
+                                        <div className="task-card" key={idx}>
+                                            <div className="task-card-header">
+                                                <div className="order-number">
+                                                    #{record.order_Number || "N/A"}
+                                                </div>
+                                                <div className="task-date">
+                                                    {record.working_date ? new Date(record.working_date).toLocaleDateString() : "N/A"}
+                                                </div>
+                                            </div>
+                                            <div className="task-card-content">
+                                                <div className="task-detail">
+                                                    <span className="detail-label">Step:</span>
+                                                    <span className="detail-value">{record.Step_Name || "N/A"}</span>
+                                                </div>
+                                                <div className="task-detail">
+                                                    <span className="detail-label">Machine:</span>
+                                                    <span className="detail-value">{record.machine_number || "N/A"}</span>
+                                                </div>
+                                                <div className="task-detail">
+                                                    <span className="detail-label">Target:</span>
+                                                    <span className="detail-value">{record.target || 0}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
                         ) : (
                             <div className="alert alert-info rounded-3 border-0 shadow-sm">
                                 <div className="d-flex align-items-center">
@@ -269,7 +415,7 @@ const EmployeeList = () => {
                 </div>
             )}
 
-            {/* QR Code Modal */}
+            {/* QR Code Modal - Already responsive */}
             <Modal 
                 show={showQRCodeModal} 
                 onHide={() => setShowQRCodeModal(false)}
