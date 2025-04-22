@@ -186,13 +186,242 @@
   background-color: rgba(68, 129, 235, 0.05);
 }
 
+/* Mobile-friendly card styles */
+.order-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.order-card:active {
+  transform: scale(0.98);
+}
+
+.order-card-header {
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.order-card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-number {
+  font-weight: 600;
+  color: #4481eb;
+  font-size: 0.9rem;
+}
+
+.order-product {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.order-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.expand-icon {
+  transition: transform 0.3s ease;
+  color: #64748b;
+}
+
+.expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.order-card-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 16px;
+  background-color: white;
+}
+
+.order-card-details.expanded {
+  max-height: 200px;
+  padding: 16px;
+}
+
+.order-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-label {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.order-detail-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Mobile steps card styling */
+.steps-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-card {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  padding: 16px;
+}
+
+.step-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.step-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.step-completion {
+  font-size: 0.9rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.step-card-progress {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.progress-percentage {
+  position: absolute;
+  top: -5px;
+  right: 0;
+  font-size: 0.8rem;
+  color: #4481eb;
+  font-weight: 600;
+}
+
+.step-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .container-order {
+    margin-left: 70px;
+  }
+}
+
 @media (max-width: 768px) {
-  .orders-container {
-    padding: 20px;
+  .container-order {
+    margin-left: 0;
   }
   
-  .order-table th,
-  .order-table td {
+  .orders-container {
+    padding: 20px 15px;
+    border-radius: 8px;
+  }
+  
+  .orders-title {
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .orders-title:after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .order-steps-container {
+    padding: 16px;
+  }
+  
+  .steps-title {
+    font-size: 1.2rem;
+    flex-wrap: wrap;
+  }
+  
+  .steps-badge {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+  
+  .action-button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .orders-container {
+    padding: 15px 10px;
+  }
+  
+  .order-card-header {
     padding: 12px;
+  }
+  
+  .order-product {
+    font-size: 1rem;
+  }
+  
+  .order-status-badge {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .order-detail-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .action-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Safe area insets for modern mobile browsers */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .orders-container {
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 }

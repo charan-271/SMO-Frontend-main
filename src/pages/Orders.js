@@ -3,7 +3,7 @@ import axios from "axios";
 import AssignMachine from "./AssignMachine";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Orders.css";
-import { FaEye, FaTrashAlt, FaCogs, FaCheckCircle, FaSpinner, FaBox, FaClipboardList } from "react-icons/fa";
+import { FaEye, FaTrashAlt, FaCogs, FaCheckCircle, FaSpinner, FaBox, FaClipboardList, FaChevronDown } from "react-icons/fa";
 
 // Create a custom hook to access the navbar collapsed state
 const useNavbarState = () => {
@@ -19,6 +19,7 @@ const Orders = () => {
   const [assignStep, setAssignStep] = useState(null);
   const [loading, setLoading] = useState(false);
   const [stepsLoading, setStepsLoading] = useState(false);
+  const [expandedOrder, setExpandedOrder] = useState(null);
   const { isNavbarCollapsed } = useNavbarState(); // Get navbar collapsed state
 
   useEffect(() => {
@@ -98,6 +99,108 @@ const Orders = () => {
     return percentage;
   };
 
+  const toggleOrderExpand = (orderId) => {
+    setExpandedOrder(expandedOrder === orderId ? null : orderId);
+  };
+
+  const isMobileView = () => {
+    return window.innerWidth <= 768;
+  };
+
+  // Responsive card view of an order for mobile
+  const renderOrderCard = (order) => {
+    const isExpanded = expandedOrder === order.id;
+    
+    return (
+      <div className="order-card" key={order.id}>
+        <div 
+          className="order-card-header" 
+          onClick={() => toggleOrderExpand(order.id)}
+        >
+          <div className="order-card-title">
+            <span className="order-number">#{order.order_number}</span>
+            <span className="order-product">{order.product}</span>
+          </div>
+          <div className="order-card-badges">
+            {getStatusBadge(order.current_stage)}
+            <FaChevronDown className={`expand-icon ${isExpanded ? 'expanded' : ''}`} />
+          </div>
+        </div>
+        
+        <div className={`order-card-details ${isExpanded ? 'expanded' : ''}`}>
+          <div className="order-detail-item">
+            <span className="detail-label">Order ID:</span>
+            <span className="detail-value">{order.id}</span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">Quantity:</span>
+            <span className="detail-value">{order.quantity}</span>
+          </div>
+          <div className="order-detail-actions">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                fetchOrderSteps(order.id);
+              }}
+              className="action-button view"
+            >
+              <FaEye /> View
+            </button>
+            <button
+              className="action-button delete"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteOrder(order.id);
+              }}
+            >
+              <FaTrashAlt /> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Responsive card view of a step for mobile
+  const renderStepCard = (step, index) => {
+    return (
+      <div className="step-card" key={index}>
+        <div className="step-card-header">
+          <span className="step-name">{step.name}</span>
+          <span className="step-completion">{step.completed}/{step.quantity}</span>
+        </div>
+        
+        <div className="step-card-progress">
+          <div className="progress-bar-container">
+            <div 
+              className="progress-bar-fill" 
+              style={{ width: `${calculateProgress(step)}%` }}
+            ></div>
+          </div>
+          <span className="progress-percentage">{calculateProgress(step)}%</span>
+        </div>
+        
+        <div className="step-card-actions">
+          <button
+            onClick={() => setAssignStep({ order_id: selectedOrder.id, step: step.name })}
+            className={`action-button ${step.completed >= step.quantity ? 'view' : 'assign'}`}
+            disabled={step.completed >= step.quantity}
+          >
+            {step.completed >= step.quantity ? (
+              <>
+                <FaCheckCircle /> Completed
+              </>
+            ) : (
+              <>
+                <FaCogs /> Assign
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="orders-container">
@@ -118,45 +221,53 @@ const Orders = () => {
                 </div>
               </div>
             ) : (
-              <div className="order-table-container">
-                <table className="order-table table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Order Number</th>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order) => (
-                      <tr key={order.id} className="order-row">
-                        <td>{order.id}</td>
-                        <td>{order.order_number}</td>
-                        <td>{order.product}</td>
-                        <td>{order.quantity}</td>
-                        <td>{getStatusBadge(order.current_stage)}</td>
-                        <td className="d-flex gap-2">
-                          <button
-                            onClick={() => fetchOrderSteps(order.id)}
-                            className="action-button view"
-                          >
-                            <FaEye /> View
-                          </button>
-                          <button
-                            className="action-button delete"
-                            onClick={() => deleteOrder(order.id)}
-                          >
-                            <FaTrashAlt /> Delete
-                          </button>
-                        </td>
+              <>
+                {/* Mobile view - cards */}
+                <div className="d-block d-md-none order-cards-container">
+                  {orders.map(order => renderOrderCard(order))}
+                </div>
+
+                {/* Desktop view - table */}
+                <div className="d-none d-md-block order-table-container">
+                  <table className="order-table table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Order Number</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {orders.map((order) => (
+                        <tr key={order.id} className="order-row">
+                          <td>{order.id}</td>
+                          <td>{order.order_number}</td>
+                          <td>{order.product}</td>
+                          <td>{order.quantity}</td>
+                          <td>{getStatusBadge(order.current_stage)}</td>
+                          <td className="d-flex gap-2">
+                            <button
+                              onClick={() => fetchOrderSteps(order.id)}
+                              className="action-button view"
+                            >
+                              <FaEye /> View
+                            </button>
+                            <button
+                              className="action-button delete"
+                              onClick={() => deleteOrder(order.id)}
+                            >
+                              <FaTrashAlt /> Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
 
             {selectedOrder && (
@@ -179,58 +290,66 @@ const Orders = () => {
                     {orderSteps.length === 0 ? (
                       <div className="alert alert-info">No steps found for this order.</div>
                     ) : (
-                      <div className="table-responsive">
-                        <table className="order-table table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Step Name</th>
-                              <th>Progress</th>
-                              <th>Completed</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {orderSteps.map((step, index) => (
-                              <tr key={index} className="order-row">
-                                <td>{step.name}</td>
-                                <td style={{ width: "30%" }}>
-                                  <div className="d-flex align-items-center">
-                                    <div className="progress-bar-container flex-grow-1">
-                                      <div 
-                                        className="progress-bar-fill" 
-                                        style={{ width: `${calculateProgress(step)}%` }}
-                                      ></div>
-                                    </div>
-                                    <span className="ms-2 small">
-                                      {calculateProgress(step)}%
-                                    </span>
-                                  </div>
-                                </td>
-                                <td>
-                                  {step.completed} / {step.quantity}
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() => setAssignStep({ order_id: selectedOrder.id, step: step.name })}
-                                    className={`action-button ${step.completed >= step.quantity ? 'view' : 'assign'}`}
-                                    disabled={step.completed >= step.quantity}
-                                  >
-                                    {step.completed >= step.quantity ? (
-                                      <>
-                                        <FaCheckCircle /> Completed
-                                      </>
-                                    ) : (
-                                      <>
-                                        <FaCogs /> Assign
-                                      </>
-                                    )}
-                                  </button>
-                                </td>
+                      <>
+                        {/* Mobile view - step cards */}
+                        <div className="d-block d-md-none steps-cards-container">
+                          {orderSteps.map((step, index) => renderStepCard(step, index))}
+                        </div>
+
+                        {/* Desktop view - table */}
+                        <div className="d-none d-md-block table-responsive">
+                          <table className="order-table table table-hover">
+                            <thead>
+                              <tr>
+                                <th>Step Name</th>
+                                <th>Progress</th>
+                                <th>Completed</th>
+                                <th>Action</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                            </thead>
+                            <tbody>
+                              {orderSteps.map((step, index) => (
+                                <tr key={index} className="order-row">
+                                  <td>{step.name}</td>
+                                  <td style={{ width: "30%" }}>
+                                    <div className="d-flex align-items-center">
+                                      <div className="progress-bar-container flex-grow-1">
+                                        <div 
+                                          className="progress-bar-fill" 
+                                          style={{ width: `${calculateProgress(step)}%` }}
+                                        ></div>
+                                      </div>
+                                      <span className="ms-2 small">
+                                        {calculateProgress(step)}%
+                                      </span>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {step.completed} / {step.quantity}
+                                  </td>
+                                  <td>
+                                    <button
+                                      onClick={() => setAssignStep({ order_id: selectedOrder.id, step: step.name })}
+                                      className={`action-button ${step.completed >= step.quantity ? 'view' : 'assign'}`}
+                                      disabled={step.completed >= step.quantity}
+                                    >
+                                      {step.completed >= step.quantity ? (
+                                        <>
+                                          <FaCheckCircle /> Completed
+                                        </>
+                                      ) : (
+                                        <>
+                                          <FaCogs /> Assign
+                                        </>
+                                      )}
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
                     )}
                   </>
                 )}
