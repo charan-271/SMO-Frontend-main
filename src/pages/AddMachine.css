@@ -1,0 +1,147 @@
+/* Import the modern theme from assets */
+@import '../assets/ModernTheme.css';
+
+.page-container {
+    padding: 30px;
+}
+
+.add-machine-container {
+    max-width: 600px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.machine-form-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.machine-form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    padding: 24px 24px 0;
+    position: relative;
+}
+
+.form-title {
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 16px;
+    font-size: 1.8rem;
+}
+
+.title-underline {
+    width: 50px;
+    height: 4px;
+    background: var(--primary-gradient);
+    margin-bottom: 25px;
+    border-radius: 2px;
+}
+
+.header-icon {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: var(--primary-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    box-shadow: 0 6px 16px rgba(68, 129, 235, 0.3);
+}
+
+.icon-spin {
+    animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-body {
+    padding: 0 24px 24px;
+}
+
+.add-machine-form {
+    margin-top: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.modern-input {
+    padding: 12px 16px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #e9ecef;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(68, 129, 235, 0.25);
+    outline: none;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.submit-btn {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--border-radius-sm);
+    padding: 12px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(68, 129, 235, 0.3);
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .page-container {
+        padding: 20px;
+    }
+    
+    .card-header {
+        padding: 20px 20px 0;
+    }
+    
+    .card-body {
+        padding: 0 20px 20px;
+    }
+    
+    .header-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}

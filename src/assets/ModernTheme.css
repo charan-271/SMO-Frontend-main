@@ -1,0 +1,196 @@
+/* Modern UI Theme - Common styles for all pages */
+:root {
+  --primary-gradient: linear-gradient(90deg, #4481eb, #04befe);
+  --primary-color: #4481eb;
+  --secondary-color: #04befe;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-bg: #f8f9fa;
+  --dark-text: #2c3e50;
+  --gray-text: #6c757d;
+  --card-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  --container-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --border-radius-pill: 20px;
+}
+
+.page-container {
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--container-shadow);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+}
+
+.page-title:after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 4px;
+  background: var(--primary-gradient);
+  bottom: -10px;
+  left: 0;
+  border-radius: 2px;
+}
+
+.modern-card {
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  background-color: white;
+}
+
+.modern-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+}
+
+.modern-input {
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(68, 129, 235, 0.25);
+  outline: none;
+}
+
+.modern-label {
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.modern-select {
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.modern-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(68, 129, 235, 0.25);
+  outline: none;
+}
+
+.modern-btn {
+  padding: 10px 20px;
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.modern-btn.primary {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.modern-btn.primary:hover {
+  background: linear-gradient(90deg, #3470d8, #03acf0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(68, 129, 235, 0.3);
+}
+
+.modern-btn.danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: var(--danger-color);
+}
+
+.modern-btn.danger:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  transform: translateY(-2px);
+}
+
+.modern-btn.success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: var(--success-color);
+}
+
+.modern-btn.success:hover {
+  background-color: rgba(40, 167, 69, 0.2);
+  transform: translateY(-2px);
+}
+
+.status-badge {
+  padding: 8px 12px;
+  border-radius: var(--border-radius-pill);
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-badge.completed {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: var(--success-color);
+}
+
+.status-badge.in-progress {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: var(--warning-color);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border-width: 3px;
+}
+
+.progress-bar-container {
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #e9ecef;
+  margin: 10px 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--primary-gradient);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 20px;
+  }
+}

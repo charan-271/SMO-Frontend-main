@@ -1,0 +1,112 @@
+.worktracking-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.progress-bar-container {
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #e9ecef;
+    margin: 10px 0;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.modern-card {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+/* Fix for vertical scrolling */
+.scrollable-table-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modern-card .table-responsive {
+    max-height: 70vh; /* Set maximum height to 70% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Ensure the table header stays in position */
+.scrollable-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.status-badge {
+    padding: 8px 12px;
+    border-radius: var(--border-radius-pill);
+    font-weight: 500;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-badge.completed {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.in-progress {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--warning-color);
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 3px;
+}
+
+.refresh-indicator {
+    padding: 10px 15px;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.refresh-icon {
+    margin-left: 5px;
+    font-size: 0.8rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .worktracking-container {
+        padding: 20px;
+    }
+}

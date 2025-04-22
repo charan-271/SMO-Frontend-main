@@ -1,0 +1,277 @@
+.container-AssignEmployee{
+  margin: 0 auto; /* Center the container */
+  width: 900px; /* Increased from 750px for more space */
+  padding: 2.5rem; /* Increased padding */
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--container-shadow);
+  transition: all 0.3s ease;
+}
+
+/* Page title styling */
+.container-AssignEmployee h1 {
+  color: var(--dark-text);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.container-AssignEmployee h1:after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background: var(--primary-gradient);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  border-radius: 2px;
+}
+
+/* Order card styling */
+.container-AssignEmployee .modern-card {
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  background-color: white;
+}
+
+.container-AssignEmployee .modern-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.container-AssignEmployee .card-body {
+  padding: 1.5rem 1.75rem; /* Increased padding to provide more space */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.container-AssignEmployee .card-title {
+  color: var(--dark-text);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 0.75rem;
+  font-size: 1.4rem;
+  word-break: break-word; /* Allow breaking of long words */
+  display: flex; /* Use flexbox for better alignment */
+  flex-wrap: wrap; /* Allow wrapping for small screens */
+  align-items: center;
+  margin-right: 10px; /* Add right margin to prevent overflow */
+  padding-right: 10px; /* Add padding to keep content away from edges */
+}
+
+.container-AssignEmployee .order-number {
+  font-weight: 700;
+  padding: 0.4rem 0.8rem;
+  background-color: rgba(68, 129, 235, 0.1);
+  border-radius: var(--border-radius-sm);
+  color: var(--primary-color);
+  margin-right: 0.8rem;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+  margin-bottom: 0.3rem; /* Add margin bottom for when it wraps */
+}
+
+/* Step box styling */
+.container-AssignEmployee .step-box {
+  background-color: white;
+  border-radius: var(--border-radius-sm) !important;
+  border: 1px solid #e9ecef !important;
+  padding: 1.5rem !important; /* Increased padding */
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px; /* Ensure minimum height for consistency */
+}
+
+.container-AssignEmployee .step-box:hover {
+  box-shadow: var(--card-shadow);
+}
+
+/* Property-value pair styling */
+.container-AssignEmployee .property-row {
+  display: grid;
+  grid-template-columns: 90px 1fr; /* Wider label column */
+  margin-bottom: 0.8rem; /* More space between rows */
+  align-items: baseline;
+}
+
+.container-AssignEmployee .property-label {
+  color: var(--dark-text);
+  font-weight: 600;
+  font-size: 1.05rem; /* Larger font */
+}
+
+.container-AssignEmployee .property-value {
+  color: var(--gray-text);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  font-size: 1.05rem; /* Larger font */
+  padding-left: 0.5rem;
+}
+
+/* Button container */
+.container-AssignEmployee .button-container {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* Button styling */
+.container-AssignEmployee .modern-btn {
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: 0.7rem 1.2rem; /* Larger buttons */
+  font-weight: 500;
+  font-size: 1rem; /* Larger font */
+  transition: all 0.3s ease;
+}
+
+.container-AssignEmployee .modern-btn.primary {
+  background: var(--primary-gradient);
+  color: white;
+}
+
+.container-AssignEmployee .modern-btn.primary:hover {
+  background: linear-gradient(90deg, #3470d8, #03acf0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(68, 129, 235, 0.3);
+}
+
+.container-AssignEmployee .modern-btn.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: var(--warning-color);
+}
+
+.container-AssignEmployee .modern-btn.warning:hover {
+  background-color: rgba(255, 193, 7, 0.2);
+  transform: translateY(-2px);
+}
+
+.container-AssignEmployee .modern-btn.danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: var(--danger-color);
+}
+
+.container-AssignEmployee .modern-btn.danger:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Status indicators */
+.container-AssignEmployee .text-success {
+  color: var(--success-color) !important;
+  font-weight: 600;
+}
+
+.container-AssignEmployee .status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-pill);
+  font-size: 0.8rem;
+  display: inline-block;
+  text-align: center;
+  margin-left: 0.25rem;
+}
+
+.container-AssignEmployee .status-badge.completed {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: var(--success-color);
+}
+
+.container-AssignEmployee .status-badge.in-progress {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: var(--warning-color);
+}
+
+/* Modal styling */
+.container-AssignEmployee .modal-content {
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.container-AssignEmployee .modal-dialog {
+  max-width: 600px; /* Wider modal */
+}
+
+.container-AssignEmployee .modal-header {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 1.5rem 2rem; /* Increased padding */
+}
+
+.container-AssignEmployee .modal-title {
+  color: var(--dark-text);
+  font-weight: 600;
+  font-size: 1.3rem; /* Larger title */
+}
+
+.container-AssignEmployee .modal-body {
+  padding: 2rem; /* Increased padding */
+}
+
+.container-AssignEmployee .modal-footer {
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding: 1.5rem 2rem; /* Increased padding */
+}
+
+/* Form styling */
+.container-AssignEmployee .form-group {
+  margin-bottom: 1.5rem; /* More space between form groups */
+}
+
+.container-AssignEmployee .modern-label {
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 0.8rem; /* More space below labels */
+  display: block;
+  font-size: 1.1rem; /* Larger labels */
+}
+
+.container-AssignEmployee .modern-input,
+.container-AssignEmployee .modern-select {
+  padding: 0.8rem 1rem; /* Larger input fields */
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-size: 1.05rem; /* Larger text in inputs */
+}
+
+.container-AssignEmployee .modern-input:focus,
+.container-AssignEmployee .modern-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(68, 129, 235, 0.25);
+  outline: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .container-AssignEmployee {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-AssignEmployee {
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    padding: 1.5rem;
+  }
+  
+  .container-AssignEmployee .property-row {
+    grid-template-columns: 70px 1fr;
+  }
+}

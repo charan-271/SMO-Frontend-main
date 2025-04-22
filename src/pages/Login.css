@@ -1,0 +1,151 @@
+
+/* ✅ Main container */
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top:-20px;
+
+}
+
+/* ✅ Background Circles */
+.background-circles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.7;
+    box-shadow: 0 0 20px rgba(26, 25, 25, 0.2);
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    animation: fadeInOut 6s infinite alternate ease-in-out;
+}
+
+/* ✅ Hover Glow Effect */
+.circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+/* ✅ Fading Animation */
+@keyframes fadeInOut {
+    from { opacity: 0.7; }
+    to { opacity: 0.4; }
+}
+
+/* ✅ Circle Positions */
+.circle1 { width: 120px; height: 120px; top: 10%; left: 5%; background-image: url("../assets/circle1.jpg"); }
+.circle2 { width: 180px; height: 180px; bottom: 15%; left: 10%; background-image: url("../assets/circle2.jpg"); animation-duration: 8s; }
+.circle4 { width: 140px; height: 140px; top: 20%; right: 10%; background-image: url("../assets/circle4.jpg"); animation-duration: 9s; }
+.circle5 { width: 200px; height: 200px; bottom: 10%; right: 5%; background-image: url("../assets/circle5.jpg"); animation-duration: 6s; }
+
+/* ✅ Moved Main Image to the Side */
+.main-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-image: url("../assets/circle3.jpg");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ✅ Login Box with Glass Effect */
+.login-box {
+    position: relative;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 35px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+    color: rgb(0, 0, 0);
+    animation: lightReflection 3s infinite alternate;
+    overflow: hidden;
+}
+
+/* ✅ Light Reflection Effect */
+@keyframes lightReflection {
+    from { background: rgba(0, 0, 0, 0.12); }
+    to { background: rgba(255, 255, 255, 0.18); }
+}
+
+/* ✅ Login Box Heading */
+.login-box h2 {
+    margin-bottom: 8px;
+    font-size: 24px;
+    color: #000000;
+}
+
+/* ✅ Subtitle */
+.subtitle {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+/* ✅ Input Fields */
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    background: rgba(91, 88, 88, 0.2);
+    color: rgb(0, 0, 0);
+    outline: none;
+}
+
+.login-box input::placeholder {
+    color: #000000;
+}
+
+/* ✅ Login Button */
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.login-box button:hover {
+    background-color: #ff9900;
+}
+
+/* ✅ Error Message */
+.error-message {
+    color: #ff5555;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+    .main-image {
+        display: none; /* Hide side image on small screens */
+    }
+    .login-box {
+        width: 80vw; /* Make login box wider on smaller screens */
+    }
+}
