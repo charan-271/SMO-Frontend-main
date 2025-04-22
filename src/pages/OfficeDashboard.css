@@ -104,6 +104,8 @@
   overflow-x: auto;
   display: block;
   width: 100%;
+  background-color: #fff;
+  -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
 }
 
 .task-table table {
@@ -205,6 +207,30 @@
     padding: 4px 8px;
     font-size: 0.7rem;
   }
+  
+  .task-header {
+    margin-bottom: 15px;
+  }
+  
+  .task-table {
+    max-height: 350px;
+    border-radius: 8px;
+  }
+  
+  .table-responsive {
+    margin: 0 -10px;
+    width: calc(100% + 20px);
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-task-cards-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 5px;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Extra small devices */
@@ -235,7 +261,67 @@
   }
   
   .task-table {
-    margin: 0 -10px;
-    width: calc(100% + 20px);
+    margin: 0;
+    width: 100%;
+    border-radius: 6px;
+    max-height: 300px;
+  }
+  
+  /* Mobile task card view */
+  .mobile-task-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .mobile-task-card .task-header-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  
+  .mobile-task-card .order-id {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .mobile-task-card .task-detail-row {
+    display: flex;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  
+  .mobile-task-card .task-label {
+    flex: 0 0 100px;
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+  
+  .mobile-task-card .task-value {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .mobile-task-card .progress {
+    height: 8px !important;
+    margin-top: 2px;
+    margin-bottom: 4px;
+  }
+  
+  .mobile-task-card .progress-text {
+    font-size: 0.75rem;
+    text-align: right;
+  }
+  
+  .mobile-task-cards-container {
+    margin-top: 10px;
+    overflow-y: auto;
+    max-height: 60vh;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch; /* Enable momentum scrolling on iOS */
   }
 }

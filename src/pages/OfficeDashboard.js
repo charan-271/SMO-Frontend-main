@@ -8,7 +8,25 @@ const OfficeDashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 576);
 
+  // Add a resize listener to detect mobile view
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 576);
+    };
+
+    window.addEventListener('resize', handleResize);
+    
+    // Initial check
+    handleResize();
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Data fetching effect
   useEffect(() => {
     setLoading(true);
     axios
@@ -36,6 +54,124 @@ const OfficeDashboard = () => {
 
   const getStatusBadgeClass = (status) => {
     return status.toLowerCase().includes("completed") ? "status-badge completed" : "status-badge in-progress";
+  };
+
+  // Mobile Task Card component
+  const MobileTaskCard = ({ task }) => (
+    <div className="mobile-task-card">
+      <div className="task-header-row">
+        <div className="order-id">Order #{task.order_id || "N/A"}</div>
+        <span className={getStatusBadgeClass(task.status)}>
+          {task.status}
+        </span>
+      </div>
+      
+      <div className="task-detail-row">
+        <div className="task-label">Step:</div>
+        <div className="task-value">{task.step_name || "N/A"}</div>
+      </div>
+      
+      <div className="task-detail-row">
+        <div className="task-label">Employee:</div>
+        <div className="task-value">{task.employee_name || "Unassigned"}</div>
+      </div>
+      
+      <div className="task-detail-row">
+        <div className="task-label">Progress:</div>
+        <div className="task-value" style={{ width: "100%" }}>
+          <div className="progress" style={{ height: "8px" }}>
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{ 
+                width: `${Math.min(100, Math.round((task.completed / task.target) * 100))}%`,
+                backgroundColor: "#4481eb" 
+              }}
+              aria-valuenow={Math.round((task.completed / task.target) * 100)}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+          <div className="progress-text">
+            {task.completed || 0}/{task.target || 0}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Task table or cards based on screen size
+  const TasksContent = () => {
+    if (!dashboardData?.tasks || dashboardData.tasks.length === 0) {
+      return (
+        <div className="alert alert-info rounded-3 border-0 shadow-sm">
+          <div className="d-flex align-items-center">
+            <FaSpinner className="me-2" />
+            <span>No active tasks at the moment.</span>
+          </div>
+        </div>
+      );
+    }
+
+    if (isMobile) {
+      return (
+        <div className="mobile-task-cards-container">
+          {dashboardData.tasks.map((task, index) => (
+            <MobileTaskCard key={index} task={task} />
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="task-table">
+        <table className="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Step Name</th>
+              <th>Employee</th>
+              <th>Progress</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dashboardData.tasks.map((task, index) => (
+              <tr key={index}>
+                <td>#{task.order_id || "N/A"}</td>
+                <td>{task.step_name || "N/A"}</td>
+                <td>{task.employee_name || "Unassigned"}</td>
+                <td>
+                  <div className="d-flex align-items-center flex-wrap">
+                    <div className="progress flex-grow-1" style={{ height: "10px", minWidth: "100px" }}>
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{ 
+                          width: `${Math.min(100, Math.round((task.completed / task.target) * 100))}%`,
+                          backgroundColor: "#4481eb" 
+                        }}
+                        aria-valuenow={Math.round((task.completed / task.target) * 100)}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                    <span className="ms-2 small">
+                      {task.completed || 0}/{task.target || 0}
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <span className={getStatusBadgeClass(task.status)}>
+                    {task.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
   };
 
   return (
@@ -78,64 +214,13 @@ const OfficeDashboard = () => {
                 <h3 className="mb-0">Live Task Progress</h3>
               </div>
               
-              <div className="table-responsive">
-                {dashboardData?.tasks && dashboardData.tasks.length > 0 ? (
-                  <div className="task-table">
-                    <table className="table table-hover mb-0">
-                      <thead>
-                        <tr>
-                          <th>Order ID</th>
-                          <th>Step Name</th>
-                          <th>Employee</th>
-                          <th>Progress</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dashboardData.tasks.map((task, index) => (
-                          <tr key={index}>
-                            <td>#{task.order_id || "N/A"}</td>
-                            <td>{task.step_name || "N/A"}</td>
-                            <td>{task.employee_name || "Unassigned"}</td>
-                            <td>
-                              <div className="d-flex align-items-center flex-wrap">
-                                <div className="progress flex-grow-1" style={{ height: "10px", minWidth: "100px" }}>
-                                  <div
-                                    className="progress-bar"
-                                    role="progressbar"
-                                    style={{ 
-                                      width: `${Math.min(100, Math.round((task.completed / task.target) * 100))}%`,
-                                      backgroundColor: "#4481eb" 
-                                    }}
-                                    aria-valuenow={Math.round((task.completed / task.target) * 100)}
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                  ></div>
-                                </div>
-                                <span className="ms-2 small">
-                                  {task.completed || 0}/{task.target || 0}
-                                </span>
-                              </div>
-                            </td>
-                            <td>
-                              <span className={getStatusBadgeClass(task.status)}>
-                                {task.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="alert alert-info rounded-3 border-0 shadow-sm">
-                    <div className="d-flex align-items-center">
-                      <FaSpinner className="me-2" />
-                      <span>No active tasks at the moment.</span>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {isMobile ? (
+                <TasksContent />
+              ) : (
+                <div className="table-responsive">
+                  <TasksContent />
+                </div>
+              )}
             </div>
           </>
         )}
