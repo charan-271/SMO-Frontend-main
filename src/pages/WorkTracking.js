@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import "./WorkTracking.css";
-import { FaUserCog, FaCog, FaBullseye, FaCheck, FaSpinner, FaSync } from "react-icons/fa";
+import { FaUserCog, FaCog, FaBullseye, FaCheck, FaSpinner, FaSync, FaUser, FaIndustry } from "react-icons/fa";
 
 const WorkTracking = () => {
     const [employeeTasks, setEmployeeTasks] = useState([]);
@@ -48,6 +48,64 @@ const WorkTracking = () => {
         return status.toLowerCase() === "completed" ? "status-badge completed" : "status-badge in-progress";
     };
 
+    // Render a mobile-friendly card for each task
+    const renderTaskCard = (task) => {
+        const progressPercentage = Math.min(100, Math.round((task.completed / task.target) * 100));
+        
+        return (
+            <div className="task-card" key={task.id}>
+                <div className="task-card-header">
+                    <div className="employee-info">
+                        <FaUser className="icon" />
+                        <span className="name">{task.Employee?.name}</span>
+                    </div>
+                    <span className={getStatusBadgeClass(task.status)}>
+                        {task.status}
+                    </span>
+                </div>
+                
+                <div className="task-card-body">
+                    <div className="task-detail">
+                        <div className="detail-label">
+                            <FaIndustry className="detail-icon" /> Machine
+                        </div>
+                        <div className="detail-value">
+                            {task.MachineAllocation?.machine_id}
+                        </div>
+                    </div>
+                    
+                    <div className="task-detail">
+                        <div className="detail-label">
+                            <FaBullseye className="detail-icon" /> Target
+                        </div>
+                        <div className="detail-value highlight">
+                            {task.target}
+                        </div>
+                    </div>
+                    
+                    <div className="task-detail">
+                        <div className="detail-label">
+                            <FaCheck className="detail-icon" /> Completed
+                        </div>
+                        <div className="detail-value highlight">
+                            {task.completed}
+                        </div>
+                    </div>
+                    
+                    <div className="task-progress">
+                        <div className="progress-bar-container">
+                            <div 
+                                className="progress-bar-fill" 
+                                style={{ width: `${progressPercentage}%` }}
+                            ></div>
+                        </div>
+                        <span className="progress-percentage">{progressPercentage}%</span>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="container-fluid py-4">
             <div className="worktracking-container page-container">
@@ -72,7 +130,9 @@ const WorkTracking = () => {
                                 Auto-refreshing data {isRefreshing && <FaSync className="refresh-icon" />}
                             </span>
                         </div>
-                        <div className="scrollable-table-container">
+                        
+                        {/* Desktop view - Table */}
+                        <div className="scrollable-table-container d-none d-md-block">
                             <table className="table table-hover mb-0 scrollable-table">
                                 <thead>
                                     <tr>
@@ -111,6 +171,11 @@ const WorkTracking = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                        
+                        {/* Mobile view - Cards */}
+                        <div className="task-cards-container d-md-none">
+                            {employeeTasks.map(task => renderTaskCard(task))}
                         </div>
                     </div>
                 )}
