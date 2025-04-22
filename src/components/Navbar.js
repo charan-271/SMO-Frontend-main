@@ -179,14 +179,14 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
           <li className="nav-item">
             <OverlayTrigger
               placement="right"
-              overlay={collapsed ? <Tooltip id="tooltip-logout">Logout</Tooltip> : <></>}
+              overlay={collapsed && window.innerWidth > 576 ? <Tooltip id="tooltip-logout">Logout</Tooltip> : <></>}
             >
               <button 
-                className="nav-link theme-adaptive-logout w-100 d-flex align-items-center justify-content-center" 
+                className="nav-link theme-adaptive-logout w-100 d-flex align-items-center" 
                 onClick={handleLogout}
               >
-                <FaSignOutAlt className={collapsed ? "" : "me-2"} />
-                {!collapsed && <span>Logout</span>}
+                <FaSignOutAlt className="me-2" />
+                <span>Logout</span>
               </button>
             </OverlayTrigger>
           </li>
@@ -198,18 +198,30 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
 
 // Navbar Item Component with Tooltip
 const NavItem = ({ to, icon, text, collapsed, active }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 576);
+  
+  // Check if device is mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 576);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <li className="nav-item">
       <OverlayTrigger
         placement="right"
-        overlay={collapsed ? <Tooltip id={`tooltip-${text}`}>{text}</Tooltip> : <></>}
+        overlay={collapsed && !isMobile ? <Tooltip id={`tooltip-${text}`}>{text}</Tooltip> : <></>}
       >
         <NavLink 
           to={to} 
           className={`nav-link d-flex align-items-center ${active ? 'active' : ''}`}
         >
           {icon}
-          {!collapsed && <span className="ms-2">{text}</span>}
+          {(!collapsed || isMobile) && <span className="ms-2">{text}</span>}
         </NavLink>
       </OverlayTrigger>
     </li>

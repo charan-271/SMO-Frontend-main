@@ -317,6 +317,21 @@ html, body {
         visibility: visible;
     }
     
+    /* Always show text in mobile mode */
+    .sidebar.mobile-active .nav-link {
+        justify-content: flex-start;
+        padding: 0.8rem 1rem;
+    }
+    
+    .sidebar.mobile-active .nav-link svg,
+    .sidebar.mobile-active .nav-link span[role="img"] {
+        margin-right: 0.5rem;
+    }
+    
+    .sidebar.mobile-active .navbar-title {
+        display: block;
+    }
+    
     .main-content {
         margin-left: 0;
         width: 100%;
@@ -366,5 +381,23 @@ html, body {
     /* Style mobile navbar items */
     .sidebar.mobile-active .nav-link .ms-2 {
         display: inline;
+        opacity: 1;
+        font-size: 0.95rem;
+    }
+    
+    /* Override collapsed styles in mobile view */
+    .sidebar.mobile-active.collapsed-navbar .nav-link {
+        justify-content: flex-start;
+        padding: 0.8rem 1rem;
+    }
+    
+    .sidebar.mobile-active.collapsed-navbar .nav-link svg,
+    .sidebar.mobile-active.collapsed-navbar .nav-link span[role="img"] {
+        margin-right: 0.5rem;
+    }
+    
+    .sidebar.mobile-active.collapsed-navbar .nav-link .ms-2 {
+        display: inline;
+        opacity: 1;
     }
 }
