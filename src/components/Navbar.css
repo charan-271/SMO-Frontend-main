@@ -142,12 +142,31 @@
 }
 
 .collapsed-navbar .nav-link {
+    padding: 0.8rem 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 0.8rem;
 }
 
 .collapsed-navbar .nav-link:hover, .collapsed-navbar .nav-link.active {
-    transform: translateX(0); /* No transform on hover when collapsed */
+    transform: translateX(0);
+}
+
+/* Ensure icons are perfectly centered in collapsed mode */
+.collapsed-navbar .nav-link svg, 
+.collapsed-navbar .nav-link span[role="img"] {
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    position: relative;
+    left: 0;
+}
+
+/* Hide the text in collapsed mode */
+.collapsed-navbar .nav-link .ms-2 {
+    display: none;
+    opacity: 0;
 }
 
 .sidebar .nav-link.active {
@@ -159,11 +178,21 @@
     min-width: 20px; /* Prevent icon compression */
     text-align: center;
     margin-right: 0.5rem;
+    display: flex; /* Added for better icon alignment */
+    align-items: center;
+    justify-content: center;
 }
 
-.collapsed-navbar .nav-link svg, .collapsed-navbar .nav-link span[role="img"] {
+.collapsed-navbar .nav-link svg, 
+.collapsed-navbar .nav-link span[role="img"] {
     margin-right: 0;
     margin-left: 0;
+    min-width: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
 }
 
 .sidebar .nav-link .ms-2 {
@@ -176,6 +205,29 @@
 .collapsed-navbar .nav-link .ms-2 {
     display: none;
     opacity: 0;
+}
+
+/* Icon container for perfect centering in collapsed mode */
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.collapsed-navbar .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.collapsed-navbar .icon-container svg {
+    position: static;
+    margin: 0 auto;
 }
 
 /* Tooltip styles */
@@ -206,6 +258,28 @@
 
 .collapsed-navbar .theme-adaptive-logout:hover {
     transform: translateX(0);
+}
+
+.collapsed-navbar .theme-adaptive-logout {
+    justify-content: center;
+    padding: 0.8rem 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.collapsed-navbar .theme-adaptive-logout .ms-2 {
+    display: none;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.collapsed-navbar .theme-adaptive-logout .icon-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 @media (prefers-color-scheme: light) {

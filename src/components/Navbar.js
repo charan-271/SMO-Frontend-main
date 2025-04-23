@@ -176,6 +176,7 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
           
           <div className="nav-divider"></div>
           
+          {/* Fixing the logout button to hide text completely when collapsed */}
           <li className="nav-item">
             <OverlayTrigger
               placement="right"
@@ -185,8 +186,10 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
                 className="nav-link theme-adaptive-logout w-100 d-flex align-items-center" 
                 onClick={handleLogout}
               >
-                <FaSignOutAlt className="me-2" />
-                <span>Logout</span>
+                <span className={collapsed && window.innerWidth > 576 ? "icon-container" : ""}>
+                  <FaSignOutAlt />
+                </span>
+                {(!collapsed || window.innerWidth <= 576) && <span className="ms-2">Logout</span>}
               </button>
             </OverlayTrigger>
           </li>
@@ -218,9 +221,11 @@ const NavItem = ({ to, icon, text, collapsed, active }) => {
       >
         <NavLink 
           to={to} 
-          className={`nav-link d-flex align-items-center ${active ? 'active' : ''}`}
+          className={`nav-link ${active ? 'active' : ''}`}
         >
-          {icon}
+          <span className={collapsed && !isMobile ? "icon-container" : ""}>
+            {icon}
+          </span>
           {(!collapsed || isMobile) && <span className="ms-2">{text}</span>}
         </NavLink>
       </OverlayTrigger>
