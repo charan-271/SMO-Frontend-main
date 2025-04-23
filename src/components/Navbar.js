@@ -149,6 +149,7 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
                 collapsed={collapsed}
                 active={location.pathname === "/productivity"}
               />
+              
             </>
           )}
           
@@ -199,6 +200,14 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
                 text="Assign Employee" 
                 collapsed={collapsed}
                 active={location.pathname === "/assign-employee"}
+              />
+
+              <NavItem 
+                to= "/register"
+                icon={<FaUserPlus />} 
+                text="Register" 
+                collapsed={collapsed}
+                active={location.pathname === "/register"}
               />
             </>
           )}

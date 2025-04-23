@@ -39,7 +39,7 @@ function Layout({ auth, setAuth }) {
                 <Routes>
                     <Route path="/" element={<Navigate to={auth ? localStorage.getItem("lastVisited") || "/orders" : "/login"} />} />
                     <Route path="/login" element={auth ? <Navigate to={localStorage.getItem("lastVisited") || "/orders"} /> : <Login setAuth={setAuth} />} />
-                    <Route path="/register" element={auth ? <Navigate to={localStorage.getItem("lastVisited") || "/orders"} /> : <Register />} />
+                    <Route path="/register" element={auth ? <Register /> : <Navigate to="/register" />} />
                     <Route path="/orders" element={auth ? <Orders /> : <Navigate to="/login" />} />
                     <Route path="/employees" element={auth ? <Employees /> : <Navigate to="/login" />} />
                     <Route path="/work-tracking" element={auth ? <WorkTracking /> : <Navigate to="/login" />} />
