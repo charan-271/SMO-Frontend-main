@@ -5,14 +5,29 @@ import {
   FaPlus, FaIndustry, FaUserPlus, FaCogs, FaSignOutAlt,
   FaChartBar, FaRandom, FaBars, FaTimes
 } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode"; // Changed from default import to named import
 import "./Navbar.css";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
 
 const Navbar = ({ setAuth, onToggleCollapse }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileMenuActive, setMobileMenuActive] = useState(false);
+  const [role, setRole] = useState(""); // Added role state
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Decode JWT to get user role
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setRole(decoded.role);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
   
   // Auto-collapse sidebar on mobile screens
   useEffect(() => {
@@ -90,93 +105,107 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
         </button>
 
         <ul className="nav flex-column flex-grow-1">
-          <NavItem 
-            to="/office-dashboard" 
-            icon={<FaHome />} 
-            text="Dashboard" 
-            collapsed={collapsed} 
-            active={location.pathname === "/office-dashboard"}
-          />
+          {/* Common Navigation for admin, manager, employee */}
+          {(role === "admin" || role === "manager" || role === "employee" || !role) && (
+            <>
+              <NavItem 
+                to="/office-dashboard" 
+                icon={<FaHome />} 
+                text="Dashboard" 
+                collapsed={collapsed} 
+                active={location.pathname === "/office-dashboard"}
+              />
+              
+              <NavItem 
+                to="/orders" 
+                icon={<FaClipboardList />} 
+                text="Orders" 
+                collapsed={collapsed}
+                active={location.pathname === "/orders"}
+              />
+              
+              <div className="nav-divider"></div>
+              
+              <NavItem 
+                to="/employees" 
+                icon={<FaUsers />} 
+                text="Employees" 
+                collapsed={collapsed}
+                active={location.pathname === "/employees"}
+              />
+              
+              <NavItem 
+                to="/work-tracking" 
+                icon={<FaTasks />} 
+                text="Work Tracking" 
+                collapsed={collapsed}
+                active={location.pathname === "/work-tracking"}
+              />
+              
+              <NavItem 
+                to="/productivity" 
+                icon={<FaChartBar />} 
+                text="Productivity" 
+                collapsed={collapsed}
+                active={location.pathname === "/productivity"}
+              />
+            </>
+          )}
           
-          <NavItem 
-            to="/orders" 
-            icon={<FaClipboardList />} 
-            text="Orders" 
-            collapsed={collapsed}
-            active={location.pathname === "/orders"}
-          />
+          {/* Production Flow access for specific roles */}
+          {(role === "admin" || role === "Cutting" || role === "Sewing" || 
+            role === "Quality control" || role === "Packing" || !role) && (
+            <NavItem 
+              to="/production-flow" 
+              icon={<FaRandom />} 
+              text="Production Flow" 
+              collapsed={collapsed}
+              active={location.pathname === "/production-flow"}
+            />
+          )}
+          
+          {/* Admin functions for admin, manager or no role (fallback) */}
+          {(role === "admin" || role === "manager" || !role) && (
+            <>
+              <div className="nav-divider"></div>
+              
+              <NavItem 
+                to="/add-employee" 
+                icon={<FaUserPlus />} 
+                text="Add Employee" 
+                collapsed={collapsed}
+                active={location.pathname === "/add-employee"}
+              />
+              
+              <NavItem 
+                to="/add-machine" 
+                icon={<FaIndustry />} 
+                text="Add Machine" 
+                collapsed={collapsed}
+                active={location.pathname === "/add-machine"}
+              />
+              
+              <NavItem 
+                to="/create-order" 
+                icon={<FaPlus />} 
+                text="Create Order" 
+                collapsed={collapsed}
+                active={location.pathname === "/create-order"}
+              />
+              
+              <NavItem 
+                to="/assign-employee" 
+                icon={<FaCogs />} 
+                text="Assign Employee" 
+                collapsed={collapsed}
+                active={location.pathname === "/assign-employee"}
+              />
+            </>
+          )}
           
           <div className="nav-divider"></div>
           
-          <NavItem 
-            to="/employees" 
-            icon={<FaUsers />} 
-            text="Employees" 
-            collapsed={collapsed}
-            active={location.pathname === "/employees"}
-          />
-          
-          <NavItem 
-            to="/work-tracking" 
-            icon={<FaTasks />} 
-            text="Work Tracking" 
-            collapsed={collapsed}
-            active={location.pathname === "/work-tracking"}
-          />
-          
-          <NavItem 
-            to="/productivity" 
-            icon={<FaChartBar />} 
-            text="Productivity" 
-            collapsed={collapsed}
-            active={location.pathname === "/productivity"}
-          />
-          
-          <NavItem 
-            to="/production-flow" 
-            icon={<FaRandom />} 
-            text="Production Flow" 
-            collapsed={collapsed}
-            active={location.pathname === "/production-flow"}
-          />
-          
-          <div className="nav-divider"></div>
-          
-          <NavItem 
-            to="/add-employee" 
-            icon={<FaUserPlus />} 
-            text="Add Employee" 
-            collapsed={collapsed}
-            active={location.pathname === "/add-employee"}
-          />
-          
-          <NavItem 
-            to="/add-machine" 
-            icon={<FaIndustry />} 
-            text="Add Machine" 
-            collapsed={collapsed}
-            active={location.pathname === "/add-machine"}
-          />
-          
-          <NavItem 
-            to="/create-order" 
-            icon={<FaPlus />} 
-            text="Create Order" 
-            collapsed={collapsed}
-            active={location.pathname === "/create-order"}
-          />
-          
-          <NavItem 
-            to="/assign-employee" 
-            icon={<FaCogs />} 
-            text="Assign Employee" 
-            collapsed={collapsed}
-            active={location.pathname === "/assign-employee"}
-          />
-          
-          <div className="nav-divider"></div>
-          
-          {/* Fixing the logout button to hide text completely when collapsed */}
+          {/* Logout button */}
           <li className="nav-item">
             <OverlayTrigger
               placement="right"

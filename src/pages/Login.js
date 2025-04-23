@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css"; // ✅ Custom CSS if needed
@@ -19,11 +19,19 @@ const Login = ({ setAuth }) => {
                 password
             });
 
+            // Store both token and user role
             localStorage.setItem("token", response.data.token);
+            if (response.data.user && response.data.user.role) {
+                localStorage.setItem("role", response.data.user.role);
+            }
+            
             setAuth(true);
-            navigate("/office-dashboard");
+            
+            // Redirect to last visited page or dashboard
+            const lastVisited = localStorage.getItem("lastVisited") || "/office-dashboard";
+            navigate(lastVisited);
         } catch (err) {
-            setError("Login failed. Invalid email or password.");
+            setError(err.response?.data?.message || "Login failed. Invalid email or password.");
         }
     };
 
