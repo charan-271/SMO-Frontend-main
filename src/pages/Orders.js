@@ -3,7 +3,7 @@ import axios from "axios";
 import AssignMachine from "./AssignMachine";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Orders.css";
-import { FaEye, FaTrashAlt, FaCogs, FaCheckCircle, FaSpinner, FaBox, FaClipboardList, FaChevronDown } from "react-icons/fa";
+import { FaEye, FaTrashAlt, FaCogs, FaCheckCircle, FaSpinner, FaBox, FaClipboardList, FaChevronDown, FaTimes } from "react-icons/fa";
 
 // Create a custom hook to access the navbar collapsed state
 const useNavbarState = () => {
@@ -278,6 +278,12 @@ const Orders = () => {
                     Order Steps
                     <span className="steps-badge">#{selectedOrder.order_number}</span>
                   </h3>
+                  <button
+                    className="close-button"
+                    onClick={() => setSelectedOrder(null)}
+                  >
+                    <FaTimes />
+                  </button>
                 </div>
 
                 {stepsLoading ? (
