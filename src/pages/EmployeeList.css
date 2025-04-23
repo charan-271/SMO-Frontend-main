@@ -321,6 +321,51 @@
     padding: 16px;
 }
 
+/* Mobile Quick Actions */
+.mobile-quick-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.quick-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quick-action-btn:hover, .quick-action-btn:focus {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.quick-action-btn:first-child {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: #17a2b8;
+}
+
+.quick-action-btn:nth-child(2) {
+    background-color: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+}
+
+.quick-action-btn:last-child {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
 .mobile-action-toggle {
     background: transparent;
     border: none;
@@ -333,6 +378,18 @@
     font-size: 1.1rem;
     border-radius: 50%;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+.mobile-action-toggle:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #4f46e5;
+    border-radius: 50%;
 }
 
 .mobile-action-toggle:hover, .mobile-action-toggle:focus {
@@ -340,16 +397,29 @@
     color: #4f46e5;
 }
 
+/* Improve mobile menu position and appearance */
 .mobile-action-menu {
     position: absolute;
-    top: 55px;
-    right: 12px;
+    top: 45px; /* Adjusted position */
+    right: 8px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     z-index: 100;
     min-width: 180px;
+    animation: menuFadeIn 0.2s ease;
+}
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .mobile-action-item {

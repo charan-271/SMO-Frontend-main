@@ -190,6 +190,31 @@ const EmployeeList = () => {
                 <div className="employee-card-content">
                     <p className="employee-rfid">RFID: {emp.rfid}</p>
                     <span className="employee-role">Worker</span>
+                    
+                    {/* Quick action buttons for mobile */}
+                    <div className="mobile-quick-actions">
+                        <button 
+                            className="quick-action-btn"
+                            onClick={() => fetchHistory(emp.id)}
+                            aria-label="View history"
+                        >
+                            <FaHistory /> History
+                        </button>
+                        <button 
+                            className="quick-action-btn"
+                            onClick={() => handleGenerateQR(emp)}
+                            aria-label="Show QR code"
+                        >
+                            <FaQrcode /> QR Code
+                        </button>
+                        <button 
+                            className="quick-action-btn"
+                            onClick={() => toggleMobileActionMenu(emp.id)}
+                            aria-label="More options"
+                        >
+                            <FaEllipsisV /> More
+                        </button>
+                    </div>
                 </div>
             </div>
         );
