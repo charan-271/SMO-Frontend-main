@@ -32,7 +32,7 @@ const AddMachine = () => {
                         <h1 className="form-title">Add Machine</h1>
                         <div className="title-underline"></div>
                         <div className="header-icon">
-                            <FaCog className="icon-spin" />
+                            <FaCog className="icon-spin" size={30} />
                         </div>
                     </div>
                     <div className="card-body">
@@ -59,12 +59,13 @@ const AddMachine = () => {
                                 >
                                     {isSubmitting ? (
                                         <>
-                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" 
+                                                  style={{ width: '1.5rem', height: '1.5rem' }}></span>
                                             Processing...
                                         </>
                                     ) : (
                                         <>
-                                            <FaPlus className="me-2" /> Add Machine
+                                            <FaPlus className="me-2" size={20} /> Add Machine
                                         </>
                                     )}
                                 </button>
