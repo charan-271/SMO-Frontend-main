@@ -1,4 +1,3 @@
-
 /* ✅ Main container */
 .login-container {
     width: 100vw;
@@ -121,13 +120,14 @@
     width: 100%;
     padding: 12px;
     background-color: #ffcc00;
-    color: black;
+    color: #4481eb; /* Changed from black to blue (primary color) */
     border: none;
     border-radius: 6px;
     font-size: 18px;
     cursor: pointer;
     transition: 0.3s;
     margin-top: 10px;
+    font-weight: 600; /* Added for better visibility of blue text on yellow */
 }
 
 .login-box button:hover {
