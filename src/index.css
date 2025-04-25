@@ -13,6 +13,36 @@ code {
     monospace;
 }
 
+/* Layout structure styles */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content {
+  margin-left: 250px; /* Width of expanded sidebar */
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.main-content-collapsed {
+  margin-left: 80px; /* Width of collapsed sidebar */
+}
+
+/* Fix for asymmetrical content when sidebar is collapsed */
+#root > div > div.content.main-content.main-content-collapsed > div > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
 /* Center all content globally */
 .page-container {
   width: 100%;
@@ -45,13 +75,22 @@ code {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .page-container {
+  .page-container, #root > div > div.content.main-content.main-content-collapsed > div > div {
+    padding: 15px;
+  }
+  
+  .main-content, .main-content-collapsed {
+    margin-left: 0;
     padding: 15px;
   }
 }
 
 @media (max-width: 576px) {
-  .page-container {
+  .page-container, #root > div > div.content.main-content.main-content-collapsed > div > div {
+    padding: 10px;
+  }
+  
+  .main-content, .main-content-collapsed {
     padding: 10px;
   }
 }

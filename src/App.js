@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductionFlow from "./pages/ProductionFlow";
 import EmployeeProductivityGraphs from "./pages/EmployeeProductivityGraphs";
+import UsersTable from "./pages/UsersTable";
 
 function Layout({ auth, setAuth }) {
     const location = useLocation();
@@ -50,6 +51,7 @@ function Layout({ auth, setAuth }) {
                     <Route path="/office-dashboard" element={auth ? <OfficeDashboard /> : <Navigate to="/login" />} />
                     <Route path="/productivity" element={<EmployeeProductivityGraphs />} />
                     <Route path="/production-flow" element={auth ? <ProductionFlow /> : <Navigate to="/login" />} />
+                    <Route path="/users" element={auth ? <UsersTable /> : <Navigate to="/login" />} />
                     {/* Add more routes as needed */}
                 </Routes>
             </div>

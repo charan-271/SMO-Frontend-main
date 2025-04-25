@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { 
   FaHome, FaClipboardList, FaUsers, FaTasks, 
   FaPlus, FaIndustry, FaUserPlus, FaCogs, FaSignOutAlt,
-  FaChartBar, FaRandom, FaBars, FaTimes
+  FaChartBar, FaRandom, FaBars, FaTimes, FaTable
 } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode"; // Changed from default import to named import
 import "./Navbar.css";
@@ -208,6 +208,14 @@ const Navbar = ({ setAuth, onToggleCollapse }) => {
                 text="Register" 
                 collapsed={collapsed}
                 active={location.pathname === "/register"}
+              />
+              
+              <NavItem 
+                to="/users" 
+                icon={<FaTable />} 
+                text="Users" 
+                collapsed={collapsed}
+                active={location.pathname === "/users"}
               />
             </>
           )}
