@@ -5,6 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./EmployeeList.css";
 import { FaSearch, FaUserEdit, FaTrash, FaChartLine, FaHistory, FaQrcode, FaTimes, FaFilter, FaEllipsisV } from "react-icons/fa";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
@@ -14,6 +15,8 @@ const EmployeeList = () => {
     const [filteredHistoryData, setFilteredHistoryData] = useState([]);
     const [showHistoryModal, setShowHistoryModal] = useState(false);
     const [showQRCodeModal, setShowQRCodeModal] = useState(false);
+    const [showGraphModal, setShowGraphModal] = useState(false);
+    const [graphData, setGraphData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [historySearchTerm, setHistorySearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -77,18 +80,36 @@ const EmployeeList = () => {
             });
     };
 
-    const fetchHistory = (employeeId) => {
+    const fetchHistory = (employeeId, showGraph = false) => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/employees/history/${employeeId}`)
             .then(response => {
-                setHistoryData(response.data.history || []);
-                setFilteredHistoryData(response.data.history || []);
-                setShowHistoryModal(true);
+                const history = response.data.history || [];
+                setHistoryData(history);
+                setFilteredHistoryData(history);
+                
+                if (showGraph) {
+                    // Process data for graph visualization
+                    const data = history.map(entry => ({
+                        date: new Date(entry.working_date).toLocaleDateString(),
+                        target: entry.target || 0
+                    }));
+                    setGraphData(data);
+                    setShowGraphModal(true);
+                } else {
+                    setShowHistoryModal(true);
+                }
             })
             .catch(error => {
                 console.error("Error fetching history:", error);
                 setHistoryData([]);
                 setFilteredHistoryData([]);
-                setShowHistoryModal(true);
+                
+                if (showGraph) {
+                    setGraphData([]);
+                    setShowGraphModal(true);
+                } else {
+                    setShowHistoryModal(true);
+                }
             });
     };
 
@@ -168,7 +189,7 @@ const EmployeeList = () => {
                             </button>
                             <button 
                                 className="mobile-action-item"
-                                onClick={() => alert("Analyze Clicked!")}
+                                onClick={() => fetchHistory(emp.id, true)}
                             >
                                 <FaChartLine /> Analytics
                             </button>
@@ -273,7 +294,7 @@ const EmployeeList = () => {
                                                     <div className="d-flex gap-2 mt-3">
                                                         <button 
                                                             className="btn btn-outline-primary rounded-pill btn-sm"
-                                                            onClick={() => alert("Analyze Clicked!")}
+                                                            onClick={() => fetchHistory(emp.id, true)}
                                                         >
                                                             <FaChartLine className="me-1" /> Analytics
                                                         </button>
@@ -463,6 +484,52 @@ const EmployeeList = () => {
                         </div>
                     )}
                 </Modal.Body>
+            </Modal>
+
+            {/* Graph Modal */}
+            <Modal 
+                show={showGraphModal} 
+                onHide={() => setShowGraphModal(false)} 
+                size="lg"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Target per Date (Area Chart)</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {graphData.length > 0 ? (
+                        <ResponsiveContainer width="100%" height={300}>
+                            <AreaChart data={graphData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                <XAxis dataKey="date" />
+                                <YAxis />
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Tooltip />
+                                <Area 
+                                    type="monotone" 
+                                    dataKey="target" 
+                                    stroke="#8884d8" 
+                                    fillOpacity={1} 
+                                    fill="url(#colorTarget)" 
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    ) : (
+                        <div className="text-center py-4">
+                            <p className="text-muted">No data available for graph visualization.</p>
+                        </div>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowGraphModal(false)}>
+                        Close
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </div>
     );

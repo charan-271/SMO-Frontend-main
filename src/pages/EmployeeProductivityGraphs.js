@@ -47,38 +47,123 @@ const EmployeeProductivityGraphs = () => {
         }
     };
 
-    // Chart.js common options for a modern look
+    // Chart options and styles
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
+        animation: {
+            duration: 1000,
+            easing: 'easeInOutQuart'
+        },
         plugins: {
             legend: {
-                labels: {
-                    font: {
-                        family: "'Poppins', sans-serif",
-                        size: 12
-                    },
-                    usePointStyle: true,
-                    padding: 20
-                },
                 position: 'top',
+                labels: {
+                    boxWidth: 15,
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 20,
+                    font: {
+                        size: 12,
+                        family: "'Poppins', sans-serif",
+                        weight: '600'
+                    }
+                }
             },
             tooltip: {
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                titleColor: '#333',
-                bodyColor: '#666',
+                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                titleColor: '#1a1a2e',
+                bodyColor: '#333',
                 bodyFont: {
-                    family: "'Poppins', sans-serif",
+                    size: 13
                 },
                 titleFont: {
-                    family: "'Poppins', sans-serif",
+                    size: 14,
                     weight: 'bold'
                 },
-                borderColor: '#ddd',
+                padding: 15,
+                borderColor: 'rgba(0, 0, 0, 0.05)',
                 borderWidth: 1,
-                padding: 12,
-                boxPadding: 6,
-                usePointStyle: true
+                displayColors: true,
+                boxWidth: 10,
+                boxHeight: 10,
+                boxPadding: 5,
+                usePointStyle: true,
+                callbacks: {
+                    labelTextColor: function(context) {
+                        return '#333';
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    font: {
+                        size: 11,
+                        family: "'Poppins', sans-serif"
+                    },
+                    color: '#555'
+                }
+            },
+            y: {
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.03)',
+                    drawBorder: false
+                },
+                ticks: {
+                    font: {
+                        size: 11,
+                        family: "'Poppins', sans-serif"
+                    },
+                    color: '#555',
+                    padding: 10
+                }
+            }
+        }
+    };
+
+    // Radar specific options
+    const radarOptions = {
+        ...chartOptions,
+        scales: undefined,
+        elements: {
+            line: {
+                borderWidth: 2
+            },
+            point: {
+                radius: 4,
+                hoverRadius: 6,
+                borderWidth: 2,
+                hoverBorderWidth: 2
+            }
+        },
+        scales: {
+            r: {
+                angleLines: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.03)'
+                },
+                pointLabels: {
+                    font: {
+                        size: 11,
+                        family: "'Poppins', sans-serif"
+                    },
+                    color: '#555'
+                },
+                ticks: {
+                    backdropColor: 'transparent',
+                    color: '#555',
+                    font: {
+                        size: 10
+                    }
+                }
             }
         }
     };
@@ -88,37 +173,44 @@ const EmployeeProductivityGraphs = () => {
             <h2 className="text-center text-primary mb-4">Employee Productivity Analysis</h2>
 
             {loading ? (
-                <div className="text-center p-5">
+                <div className="text-center">
                     <div className="spinner-border text-primary" role="status">
                         <span className="visually-hidden">Loading...</span>
                     </div>
-                    <p className="mt-3 text-muted">Loading productivity data...</p>
+                    <p className="mt-3">Loading productivity data...</p>
                 </div>
             ) : orders.length > 0 ? (
                 <Accordion defaultActiveKey="0">
                     {orders.map((order, index) => (
                         <Card key={order.order_id}>
                             <Accordion.Item eventKey={String(index)}>
-                                <Accordion.Header>Order ID: {order.order_id} - {order.order_number}</Accordion.Header>
+                                <Accordion.Header>
+                                    <span className="order-header">
+                                        <span className="order-number">Order #{order.order_number}</span>
+                                        <span className="order-id"> (ID: {order.order_id})</span>
+                                    </span>
+                                </Accordion.Header>
                                 <Accordion.Body>
                                     <div className="row g-4 justify-content-center">
                                         <div className="col-12 col-md-6">
-                                            <div className="card shadow-sm p-3">
-                                                <h5 className="chart-title">Time per Piece</h5>
-                                                <div style={{ height: "300px" }}>
+                                            <div className="card shadow-sm">
+                                                <h5 className="chart-title">Time per Piece Analysis</h5>
+                                                <div style={{ height: '300px' }}>
                                                     <Line
                                                         data={{
                                                             labels: order.timePerPiece?.map(d => `Emp ${d.employee_id}`),
                                                             datasets: [{
-                                                                label: "Avg. Time Taken per Piece (Minutes)",
+                                                                label: "Minutes per Piece",
                                                                 data: order.timePerPiece?.map(d => parseFloat(d.time_per_piece) || 0),
-                                                                borderColor: "rgba(13, 110, 253, 0.8)",
-                                                                backgroundColor: "rgba(13, 110, 253, 0.1)",
-                                                                borderWidth: 2,
+                                                                borderColor: "rgba(66, 133, 244, 1)",
+                                                                backgroundColor: "rgba(66, 133, 244, 0.2)",
+                                                                fill: true,
                                                                 tension: 0.4,
-                                                                pointRadius: 4,
-                                                                pointBackgroundColor: "rgba(13, 110, 253, 1)",
-                                                                fill: true
+                                                                borderWidth: 3,
+                                                                pointBackgroundColor: "rgba(66, 133, 244, 1)",
+                                                                pointBorderColor: "#fff",
+                                                                pointRadius: 5,
+                                                                pointHoverRadius: 7
                                                             }]
                                                         }}
                                                         options={chartOptions}
@@ -128,44 +220,34 @@ const EmployeeProductivityGraphs = () => {
                                         </div>
 
                                         <div className="col-12 col-md-6">
-                                            <div className="card shadow-sm p-3">
-                                                <h5 className="chart-title">Total Pieces</h5>
-                                                <div style={{ height: "300px" }}>
+                                            <div className="card shadow-sm">
+                                                <h5 className="chart-title">Productivity by Employee</h5>
+                                                <div style={{ height: '300px' }}>
                                                     <Bar
                                                         data={{
                                                             labels: order.totalPieces?.map(d => `Emp ${d.employee_id}`),
                                                             datasets: [{
                                                                 label: "Total Pieces Completed",
                                                                 data: order.totalPieces?.map(d => d.total_completed),
-                                                                backgroundColor: "rgba(25, 135, 84, 0.7)",
-                                                                borderRadius: 6,
-                                                                borderColor: "rgba(25, 135, 84, 0.9)",
-                                                                borderWidth: 1
-                                                            }]
-                                                        }}
-                                                        options={chartOptions}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="col-12 col-md-6">
-                                            <div className="card shadow-sm p-3">
-                                                <h5 className="chart-title">Hourly Productivity</h5>
-                                                <div style={{ height: "300px" }}>
-                                                    <Line
-                                                        data={{
-                                                            labels: order.hourlyTrend?.map(d => d.hour_slot),
-                                                            datasets: [{
-                                                                label: "Hourly Productivity",
-                                                                data: order.hourlyTrend?.map(d => d.hourly_completed),
-                                                                borderColor: "rgba(102, 16, 242, 0.8)",
-                                                                backgroundColor: "rgba(102, 16, 242, 0.1)",
+                                                                backgroundColor: [
+                                                                    'rgba(54, 162, 235, 0.7)',
+                                                                    'rgba(75, 192, 192, 0.7)',
+                                                                    'rgba(153, 102, 255, 0.7)',
+                                                                    'rgba(255, 159, 64, 0.7)',
+                                                                    'rgba(255, 99, 132, 0.7)',
+                                                                    'rgba(89, 212, 153, 0.7)',
+                                                                ],
+                                                                borderColor: [
+                                                                    'rgba(54, 162, 235, 1)',
+                                                                    'rgba(75, 192, 192, 1)',
+                                                                    'rgba(153, 102, 255, 1)',
+                                                                    'rgba(255, 159, 64, 1)',
+                                                                    'rgba(255, 99, 132, 1)',
+                                                                    'rgba(89, 212, 153, 1)',
+                                                                ],
                                                                 borderWidth: 2,
-                                                                tension: 0.4,
-                                                                pointRadius: 4,
-                                                                pointBackgroundColor: "rgba(102, 16, 242, 1)",
-                                                                fill: true
+                                                                borderRadius: 6,
+                                                                maxBarThickness: 45
                                                             }]
                                                         }}
                                                         options={chartOptions}
@@ -174,42 +256,25 @@ const EmployeeProductivityGraphs = () => {
                                             </div>
                                         </div>
 
-                                        <div className="col-12 col-md-6">
-                                            <div className="card shadow-sm p-3">
+                                        <div className="col-12 col-lg-8">
+                                            <div className="card shadow-sm">
                                                 <h5 className="chart-title">Performance Comparison</h5>
-                                                <div style={{ height: "300px" }}>
+                                                <div style={{ height: '350px' }}>
                                                     <Radar
                                                         data={{
-                                                            labels: order.employeePerformance?.map(d => `Emp ${d.employee_id}`),
+                                                            labels: order.employeePerformance?.map(d => `Employee ${d.employee_id}`),
                                                             datasets: [{
-                                                                label: "Performance",
+                                                                label: "Task Completion",
                                                                 data: order.employeePerformance?.map(d => d.total_completed),
-                                                                backgroundColor: "rgba(220, 53, 69, 0.3)",
-                                                                borderColor: "rgba(220, 53, 69, 0.8)",
-                                                                borderWidth: 2,
-                                                                pointRadius: 4,
-                                                                pointBackgroundColor: "rgba(220, 53, 69, 1)"
+                                                                backgroundColor: "rgba(94, 114, 228, 0.25)",
+                                                                borderColor: "rgba(94, 114, 228, 1)",
+                                                                pointBackgroundColor: "rgba(94, 114, 228, 1)",
+                                                                pointBorderColor: "#fff",
+                                                                pointHoverBackgroundColor: "#fff",
+                                                                pointHoverBorderColor: "rgba(94, 114, 228, 1)"
                                                             }]
                                                         }}
-                                                        options={{
-                                                            ...chartOptions,
-                                                            scales: {
-                                                                r: {
-                                                                    angleLines: {
-                                                                        color: "rgba(0, 0, 0, 0.1)"
-                                                                    },
-                                                                    grid: {
-                                                                        color: "rgba(0, 0, 0, 0.05)"
-                                                                    },
-                                                                    pointLabels: {
-                                                                        font: {
-                                                                            family: "'Poppins', sans-serif",
-                                                                            size: 12
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }}
+                                                        options={radarOptions}
                                                     />
                                                 </div>
                                             </div>
@@ -221,9 +286,9 @@ const EmployeeProductivityGraphs = () => {
                     ))}
                 </Accordion>
             ) : (
-                <div className="alert alert-info p-4 text-center shadow-sm">
-                    <i className="bi bi-info-circle me-2"></i>
-                    No productivity data available at this time.
+                <div className="text-center text-danger">
+                    <i className="fas fa-chart-line fa-3x mb-3"></i>
+                    <p>No productivity data available for analysis.</p>
                 </div>
             )}
         </div>
