@@ -303,7 +303,7 @@ const Orders = () => {
                         </div>
 
                         {/* Desktop view - table */}
-                        <div className="d-none d-md-block table-responsive">
+                        <div className="d-none d-md-block table-responsive-container">
                           <table className="order-table table table-hover">
                             <thead>
                               <tr>

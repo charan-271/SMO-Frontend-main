@@ -122,6 +122,41 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
   padding: 24px;
   margin-top: 30px;
+  max-height: 400px; /* Reduced to force overflow */
+  overflow-y: scroll; /* Changed from auto to always show scrollbar */
+  -ms-overflow-style: scrollbar; /* For IE and Edge */
+  scrollbar-width: thin; /* For Firefox */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table wrapper to ensure proper scrolling */
+.table-responsive-container {
+  overflow-y: visible;
+  flex: 1;
+}
+
+/* Styling for scrollbar */
+.order-steps-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  display: block; /* Force display */
+}
+
+.order-steps-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.order-steps-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.order-steps-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .steps-header {
@@ -392,6 +427,13 @@
   
   .order-steps-container {
     padding: 16px;
+    max-height: 500px; /* Slightly smaller on mobile */
+  }
+  
+  .steps-cards-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px; /* Space for scrollbar */
   }
   
   .steps-title {
