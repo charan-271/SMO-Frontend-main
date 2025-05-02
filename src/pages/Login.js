@@ -62,7 +62,7 @@ const Login = ({ setAuth }) => {
                 <form onSubmit={handleLogin}>
                     <div className="mb-3">
                         <input
-                            type="email"
+                            type="text"
                             className="form-control"
                             placeholder="Email"
                             value={email}
