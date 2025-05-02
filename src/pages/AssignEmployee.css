@@ -254,6 +254,130 @@
   outline: none;
 }
 
+/* Scrollable dropdown styling */
+.container-AssignEmployee .modern-select {
+  max-height: 200px; /* Set maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.container-AssignEmployee .modern-select option {
+  padding: 8px 10px; /* Add comfortable padding */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.container-AssignEmployee .modern-select option:hover {
+  background-color: rgba(68, 129, 235, 0.1); /* Light highlight on hover */
+}
+
+/* Styling the scrollbar for Webkit browsers */
+.container-AssignEmployee .modern-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container-AssignEmployee .modern-select::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.container-AssignEmployee .modern-select::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.container-AssignEmployee .modern-select::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Styling for Firefox scrollbar */
+.container-AssignEmployee .modern-select {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+/* Custom Dropdown for Employees with Scrolling Support */
+.container-AssignEmployee .custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.container-AssignEmployee .custom-select-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.05rem;
+}
+
+.container-AssignEmployee .custom-select-header:hover {
+  border-color: var(--primary-color);
+}
+
+.container-AssignEmployee .dropdown-arrow {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.container-AssignEmployee .custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  border-top: none;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-AssignEmployee .custom-select-option {
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.container-AssignEmployee .custom-select-option:hover {
+  background-color: rgba(68, 129, 235, 0.1);
+}
+
+.container-AssignEmployee .custom-select-option.selected {
+  background-color: rgba(68, 129, 235, 0.2);
+  font-weight: 600;
+}
+
+/* Scrollbar styling for custom dropdown */
+.container-AssignEmployee .custom-select-options::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container-AssignEmployee .custom-select-options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.container-AssignEmployee .custom-select-options::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.container-AssignEmployee .custom-select-options::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Firefox scrollbar styling */
+.container-AssignEmployee .custom-select-options {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .container-AssignEmployee {

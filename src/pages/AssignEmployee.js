@@ -11,6 +11,7 @@ const AssignEmployee = () => {
     const [target, setTarget] = useState("");
     const [duration, setDuration] = useState("One Day");
     const [searchQuery, setSearchQuery] = useState("");
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     // ✅ Fetch Orders with Assigned Machines
     useEffect(() => {
@@ -82,6 +83,17 @@ const AssignEmployee = () => {
             console.error("❌ Error updating task:", error);
             alert("❌ Failed to update task.");
         });
+    };
+
+    // Toggle dropdown open/close state
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+    // Handle employee selection from custom dropdown
+    const handleEmployeeSelect = (employeeId) => {
+        setSelectedEmployee(employeeId);
+        setDropdownOpen(false);
     };
 
     return (
@@ -175,18 +187,42 @@ const AssignEmployee = () => {
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                     />
-
-                                    <select 
-                                        value={selectedEmployee} 
-                                        onChange={(e) => setSelectedEmployee(e.target.value)} 
-                                        className="modern-select">
-                                        <option value="">-- Select Employee --</option>
-                                        {employees
-                                        .filter(emp => emp.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                        .map(emp => (
-                                            <option key={emp.id} value={emp.id}>{emp.name}</option>
-                                        ))}
-                                    </select>
+                                    
+                                    {/* Custom dropdown with scrolling support */}
+                                    <div className="custom-select-container">
+                                        <div 
+                                            className="custom-select-header" 
+                                            onClick={toggleDropdown}
+                                        >
+                                            {selectedEmployee ? 
+                                                employees.find(emp => emp.id === selectedEmployee)?.name || "-- Select Employee --" 
+                                                : "-- Select Employee --"}
+                                            <span className="dropdown-arrow">▼</span>
+                                        </div>
+                                        
+                                        {dropdownOpen && (
+                                            <div className="custom-select-options">
+                                                <div 
+                                                    className="custom-select-option"
+                                                    onClick={() => handleEmployeeSelect("")}
+                                                >
+                                                    -- Select Employee --
+                                                </div>
+                                                {employees
+                                                    .filter(emp => emp.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                                    .map(emp => (
+                                                        <div 
+                                                            key={emp.id} 
+                                                            className={`custom-select-option ${selectedEmployee === emp.id ? 'selected' : ''}`}
+                                                            onClick={() => handleEmployeeSelect(emp.id)}
+                                                        >
+                                                            {emp.name}
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="form-group mb-3">
