@@ -7,9 +7,9 @@ import "./EmployeeProductivityGraphs.css";
 
 // Simple scrollable chart component
 const ScrollableChart = ({ chartType, chartData, chartOptions, dataCount }) => {
-    // Calculate width based on data points - make wider when more data points
+    // Calculate width based on data points - increase width for larger datasets
     const containerStyle = {
-        width: dataCount > 10 ? `${Math.max(100, dataCount * 50)}px` : '100%',
+        width: dataCount > 10 ? `${Math.max(100, dataCount * 80)}px` : '100%', // Increased from 50px to 80px per item
         height: '100%',
         position: 'relative'
     };
@@ -38,6 +38,8 @@ const ScrollableChart = ({ chartType, chartData, chartOptions, dataCount }) => {
 
 const EmployeeProductivityGraphs = () => {
     const [orders, setOrders] = useState([]);
+    const [employees, setEmployees] = useState([]); // Store employee data
+    const [employeeMap, setEmployeeMap] = useState({}); // Map to quickly look up employee names by ID
     const [loading, setLoading] = useState(true);
     const [employeeDisplayLimit, setEmployeeDisplayLimit] = useState(10);
     const [employeeFilter, setEmployeeFilter] = useState("");
@@ -49,8 +51,32 @@ const EmployeeProductivityGraphs = () => {
     const MAX_RADAR_EMPLOYEES = 8;
 
     useEffect(() => {
-        fetchProductivityData();
+        // Fetch both productivity data and employee data in parallel
+        Promise.all([
+            fetchProductivityData(),
+            fetchEmployeeData()
+        ]).catch(error => {
+            console.error("Error initializing data:", error);
+            setLoading(false);
+        });
     }, []);
+
+    // Fetch employee data to get names
+    const fetchEmployeeData = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/employees/`);
+            setEmployees(response.data);
+            
+            // Create a mapping of employee IDs to names for quick lookup
+            const mapping = {};
+            response.data.forEach(emp => {
+                mapping[emp.id] = emp.name;
+            });
+            setEmployeeMap(mapping);
+        } catch (error) {
+            console.error("❌ Error fetching employee data:", error);
+        }
+    };
 
     const fetchProductivityData = async () => {
         try {
@@ -135,9 +161,14 @@ const EmployeeProductivityGraphs = () => {
         let filteredData = data;
         if (filter) {
             const lowerFilter = filter.toLowerCase();
-            filteredData = data.filter(item => 
-                (`Emp ${item.employee_id}`).toLowerCase().includes(lowerFilter)
-            );
+            filteredData = data.filter(item => {
+                // Get employee name from the mapping
+                const employeeName = employeeMap[item.employee_id] || "";
+                
+                // Check if filter matches either ID or name
+                return (`${employeeName}`).toLowerCase().includes(lowerFilter) || 
+                       (`${item.employee_id}`).toLowerCase().includes(lowerFilter);
+            });
         }
         
         // Calculate pagination
@@ -412,7 +443,7 @@ const EmployeeProductivityGraphs = () => {
                                                 <div className="col-md-4 mb-3 mb-md-0">
                                                     <InputGroup>
                                                         <Form.Control
-                                                            placeholder="Filter by employee ID..."
+                                                            placeholder="Filter by employee name or ID..."
                                                             value={employeeFilter}
                                                             onChange={(e) => setEmployeeFilter(e.target.value)}
                                                             aria-label="Filter employees"
@@ -504,7 +535,7 @@ const EmployeeProductivityGraphs = () => {
                                                             <ScrollableChart
                                                                 chartType="line"
                                                                 chartData={{
-                                                                    labels: timePerPieceData.filteredData.map(d => `Emp ${d.employee_id}`),
+                                                                    labels: timePerPieceData.filteredData.map(d => employeeMap[d.employee_id] || `Emp ${d.employee_id}`),
                                                                     datasets: [{
                                                                         label: "Minutes per Piece",
                                                                         data: timePerPieceData.filteredData.map(d => parseFloat(d.time_per_piece) || 0),
@@ -527,10 +558,13 @@ const EmployeeProductivityGraphs = () => {
                                                                             ...chartOptions.scales.x,
                                                                             ticks: {
                                                                                 ...chartOptions.scales.x.ticks,
-                                                                                autoSkip: true,
-                                                                                maxRotation: timePerPieceData.filteredData.length > 10 ? 45 : 0,
-                                                                                minRotation: timePerPieceData.filteredData.length > 10 ? 45 : 0,
-                                                                                maxTicksLimit: 20
+                                                                                autoSkip: false,
+                                                                                maxRotation: 45,
+                                                                                minRotation: 45,
+                                                                                font: {
+                                                                                    ...chartOptions.scales.x.ticks.font,
+                                                                                    size: 9 // Slightly smaller font for better fit
+                                                                                }
                                                                             }
                                                                         }
                                                                     },
@@ -553,7 +587,7 @@ const EmployeeProductivityGraphs = () => {
                                                             <ScrollableChart
                                                                 chartType="bar"
                                                                 chartData={{
-                                                                    labels: totalPiecesData.filteredData.map(d => `Emp ${d.employee_id}`),
+                                                                    labels: totalPiecesData.filteredData.map(d => employeeMap[d.employee_id] || `Emp ${d.employee_id}`),
                                                                     datasets: [{
                                                                         label: "Total Pieces Completed",
                                                                         data: totalPiecesData.filteredData.map(d => d.total_completed),
@@ -572,10 +606,13 @@ const EmployeeProductivityGraphs = () => {
                                                                             ...chartOptions.scales.x,
                                                                             ticks: {
                                                                                 ...chartOptions.scales.x.ticks,
-                                                                                autoSkip: true,
-                                                                                maxRotation: totalPiecesData.filteredData.length > 10 ? 45 : 0,
-                                                                                minRotation: totalPiecesData.filteredData.length > 10 ? 45 : 0,
-                                                                                maxTicksLimit: 20
+                                                                                autoSkip: false,
+                                                                                maxRotation: 45,
+                                                                                minRotation: 45,
+                                                                                font: {
+                                                                                    ...chartOptions.scales.x.ticks.font,
+                                                                                    size: 9 // Slightly smaller font for better fit
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -598,7 +635,7 @@ const EmployeeProductivityGraphs = () => {
                                                             <ScrollableChart
                                                                 chartType="radar"
                                                                 chartData={{
-                                                                    labels: employeePerformanceData.radarData.map(d => `Employee ${d.employee_id}`),
+                                                                    labels: employeePerformanceData.radarData.map(d => employeeMap[d.employee_id] || `Emp ${d.employee_id}`),
                                                                     datasets: [{
                                                                         label: "Task Completion",
                                                                         data: employeePerformanceData.radarData.map(d => d.total_completed),
@@ -620,7 +657,7 @@ const EmployeeProductivityGraphs = () => {
                                                             <ScrollableChart
                                                                 chartType="bar"
                                                                 chartData={{
-                                                                    labels: employeePerformanceData.filteredData.map(d => `Employee ${d.employee_id}`),
+                                                                    labels: employeePerformanceData.filteredData.map(d => employeeMap[d.employee_id] || `Emp ${d.employee_id}`),
                                                                     datasets: [{
                                                                         label: "Task Completion",
                                                                         data: employeePerformanceData.filteredData.map(d => d.total_completed),
@@ -639,8 +676,19 @@ const EmployeeProductivityGraphs = () => {
                                                                             ...chartOptions.scales.y,
                                                                             ticks: {
                                                                                 ...chartOptions.scales.y.ticks,
-                                                                                autoSkip: true,
-                                                                                maxTicksLimit: 20
+                                                                                autoSkip: false,
+                                                                                callback: function(value, index, values) {
+                                                                                    // Truncate long employee names if needed
+                                                                                    const label = this.getLabelForValue(value);
+                                                                                    if (label && label.length > 15) {
+                                                                                        return label.substring(0, 15) + '...';
+                                                                                    }
+                                                                                    return label;
+                                                                                },
+                                                                                font: {
+                                                                                    ...chartOptions.scales.y.ticks.font,
+                                                                                    size: 9 // Smaller font for employee names
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
