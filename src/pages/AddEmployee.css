@@ -1,0 +1,127 @@
+/* Import the modern theme from assets */
+@import '../assets/ModernTheme.css';
+
+.add-employee-container {
+  max-width: 500px;
+  margin: 30px auto;
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+.employee-form-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.employee-form-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  padding: 24px 24px 0;
+  position: relative;
+}
+
+.form-title {
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+.title-underline {
+  width: 50px;
+  height: 4px;
+  background: var(--primary-gradient);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.rfid-toggle-section {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.rfid-fetch-section {
+  margin-bottom: 20px;
+}
+
+.fetch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+}
+
+.rfid-status {
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius-sm);
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.rfid-value {
+  color: var(--gray-text);
+  font-weight: 500;
+}
+
+.rfid-value.has-rfid {
+  color: var(--primary-color);
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-text);
+}
+
+.modern-input {
+  padding-left: 46px !important;
+}
+
+.form-action {
+  margin-top: 30px;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .add-employee-container {
+    margin: 20px;
+    padding: 0;
+    max-width: 100%;
+  }
+}

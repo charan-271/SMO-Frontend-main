@@ -1,0 +1,96 @@
+/* Global styles for page centering */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Layout structure styles */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content {
+  margin-left: 250px; /* Width of expanded sidebar */
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.main-content-collapsed {
+  margin-left: 80px; /* Width of collapsed sidebar */
+}
+
+/* Fix for asymmetrical content when sidebar is collapsed */
+#root > div > div.content.main-content.main-content-collapsed > div > div {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Center all content globally */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Make all Bootstrap containers center their content */
+.container, .container-fluid {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ensure tables and forms take proper width while being centered */
+.table, .form, .card, .table-responsive {
+  width: 100%;
+}
+
+/* Ensure rows take full width */
+.row {
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .page-container, #root > div > div.content.main-content.main-content-collapsed > div > div {
+    padding: 15px;
+  }
+  
+  .main-content, .main-content-collapsed {
+    margin-left: 0;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-container, #root > div > div.content.main-content.main-content-collapsed > div > div {
+    padding: 10px;
+  }
+  
+  .main-content, .main-content-collapsed {
+    padding: 10px;
+  }
+}

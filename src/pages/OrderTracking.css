@@ -1,0 +1,51 @@
+/* OrderTracking.css */
+
+/* Grid layout for orders */
+.order-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 2fr));
+    gap: 1.5rem;
+}
+
+/* Card styling */
+.order-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    padding: 1.5rem;
+}
+
+/* Hover effect for cards */
+.order-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Completed step background */
+.completed-step {
+    background-color: #e6fce6;
+}
+
+/* Step icon styling */
+.step-icon {
+    font-size: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+/* Step icon hover effect */
+.step-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive tweaks for smaller screens */
+@media (max-width: 640px) {
+    .step-icon {
+        font-size: 1.25rem;
+    }
+
+    .order-card {
+        padding: 1.25rem;
+    }
+}

@@ -1,0 +1,289 @@
+.worktracking-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.page-title {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.page-title:after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 4px;
+    background: linear-gradient(90deg, #4481eb, #04befe);
+    bottom: -10px;
+    left: 0;
+    border-radius: 2px;
+}
+
+.progress-bar-container {
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #e9ecef;
+    margin: 10px 0;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--primary-gradient, linear-gradient(90deg, #4481eb, #04befe));
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+.modern-card {
+    border-radius: var(--border-radius, 12px);
+    border: none;
+    box-shadow: var(--card-shadow, 0 4px 20px rgba(0, 0, 0, 0.05));
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+/* Fix for vertical scrolling */
+.scrollable-table-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modern-card .table-responsive {
+    max-height: 70vh; /* Set maximum height to 70% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Ensure the table header stays in position */
+.scrollable-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.status-badge {
+    padding: 8px 12px;
+    border-radius: var(--border-radius-pill, 30px);
+    font-weight: 500;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-badge.completed {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color, #28a745);
+}
+
+.status-badge.in-progress {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--warning-color, #ffc107);
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border-width: 3px;
+}
+
+.refresh-indicator {
+    padding: 10px 15px;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.refresh-icon {
+    margin-left: 5px;
+    font-size: 0.8rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile-friendly card styles */
+.task-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 15px;
+}
+
+.task-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.task-card:active {
+    transform: scale(0.98);
+}
+
+.task-card-header {
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.employee-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.employee-info .icon {
+    color: #4481eb;
+    font-size: 1.2rem;
+}
+
+.employee-info .name {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.task-card-body {
+    padding: 16px;
+}
+
+.task-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.detail-icon {
+    color: #4481eb;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.detail-value.highlight {
+    color: #4481eb;
+    font-size: 1.1rem;
+}
+
+.task-progress {
+    margin-top: 16px;
+    position: relative;
+}
+
+.progress-percentage {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    font-size: 0.8rem;
+    color: #4481eb;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .worktracking-container {
+        padding: 15px;
+    }
+    
+    .modern-card {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .page-title:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .worktracking-container {
+        padding: 10px;
+    }
+    
+    .status-badge {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .task-card-header {
+        padding: 12px;
+    }
+    
+    .task-card-body {
+        padding: 12px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .task-cards-container {
+        padding: 10px;
+    }
+    
+    .employee-info .name {
+        font-size: 0.95rem;
+    }
+    
+    .detail-label, .detail-value {
+        font-size: 0.85rem;
+    }
+    
+    .detail-value.highlight {
+        font-size: 1rem;
+    }
+}
+
+/* Safe area insets for modern mobile browsers */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .worktracking-container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}

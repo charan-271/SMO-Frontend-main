@@ -1,0 +1,619 @@
+/* EmployeeList.css */
+.container-fluid {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.employee-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 20px;
+    height: 100%;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.employee-card-body {
+    padding: 24px;
+}
+
+.employee-info {
+    margin-bottom: 20px;
+}
+
+.employee-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    text-align: center; /* Center the employee name */
+}
+
+.employee-email, .employee-rfid {
+    color: #64748b;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.employee-role {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+    margin-bottom: 16px;
+}
+
+.employee-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    justify-content: center; /* Center the action buttons */
+    margin-bottom: 16px;
+}
+
+.employee-action-btn {
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.employee-action-btn.edit {
+    background-color: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+    border: none;
+}
+
+.employee-action-btn.edit:hover {
+    background-color: rgba(79, 70, 229, 0.2);
+}
+
+.employee-action-btn.delete {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: none;
+}
+
+.employee-action-btn.delete:hover {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+.button-group button {
+    margin: 5px;
+}
+
+.qr-code {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 0 16px;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.table-responsive {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.btn-sm {
+    font-size: 0.9rem;
+}
+/* EmployeeList.css */
+
+/* Pagination styling */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.desktop-pagination {
+    display: flex;
+    gap: 8px;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #f1f5f9;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.page-btn.active {
+    background-color: #4f46e5;
+    color: #fff;
+}
+
+.mobile-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.page-nav-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #f1f5f9;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.page-nav-btn:hover:not(:disabled) {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.page-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-indicator {
+    font-weight: 500;
+    color: #334155;
+}
+
+/* Modern Employee List Styling */
+.employee-list-container {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.employee-list-title {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.employee-list-title:after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 4px;
+    background: linear-gradient(90deg, #4481eb, #04befe);
+    bottom: -10px;
+    left: 0;
+    border-radius: 2px;
+}
+
+/* Employee Search Bar */
+.employee-search {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.employee-search input {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 20px 12px 50px;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.employee-search input:focus {
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.employee-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+/* Employee Cards - Mobile */
+.employee-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.employee-card-mobile {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+}
+
+.employee-card-header {
+    padding: 16px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.employee-card-content {
+    padding: 16px;
+}
+
+/* Mobile Quick Actions */
+.mobile-quick-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.quick-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quick-action-btn:hover, .quick-action-btn:focus {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.quick-action-btn:first-child {
+    background-color: rgba(23, 162, 184, 0.1);
+    color: #17a2b8;
+}
+
+.quick-action-btn:nth-child(2) {
+    background-color: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+}
+
+.quick-action-btn:last-child {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.mobile-action-toggle {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+.mobile-action-toggle:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #4f46e5;
+    border-radius: 50%;
+}
+
+.mobile-action-toggle:hover, .mobile-action-toggle:focus {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #4f46e5;
+}
+
+/* Improve mobile menu position and appearance */
+.mobile-action-menu {
+    position: absolute;
+    top: 45px; /* Adjusted position */
+    right: 8px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 100;
+    min-width: 180px;
+    animation: menuFadeIn 0.2s ease;
+}
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-action-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.mobile-action-item:hover, .mobile-action-item:focus {
+    background-color: #f8f9fa;
+    color: #4f46e5;
+}
+
+.mobile-action-item svg {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* No employees state */
+.no-employees {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.no-employees h4 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.no-employees p {
+    color: #64748b;
+}
+
+/* Custom Modal for History */
+.task-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.task-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #4f46e5;
+    color: #fff;
+}
+
+.order-number {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.task-date {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.task-card-content {
+    padding: 16px;
+}
+
+.task-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.task-detail:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* QR Code Print Styling */
+.qr-print-container {
+    background-color: #fff;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .qr-print-container, .qr-print-container * {
+        visibility: visible;
+    }
+    .qr-print-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .employee-list-container {
+        padding: 20px 15px;
+        border-radius: 8px;
+    }
+    
+    .employee-list-title {
+        font-size: 1.5rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .employee-list-title:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .employee-search {
+        margin-bottom: 20px;
+    }
+    
+    .employee-search input {
+        padding: 10px 20px 10px 45px;
+        font-size: 0.95rem;
+    }
+    
+    .modal-content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .employee-list-container {
+        padding: 15px 10px;
+    }
+    
+    .employee-search input {
+        padding: 10px 15px 10px 40px;
+    }
+    
+    .employee-search-icon {
+        left: 15px;
+    }
+    
+    .modal-content {
+        padding: 12px;
+    }
+    
+    .mobile-action-menu {
+        right: 5px;
+        min-width: 160px;
+    }
+    
+    .mobile-action-item {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Safe area insets for modern mobile browsers */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .employee-list-container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    .modal-content {
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
+}
