@@ -75,21 +75,33 @@ const Orders = () => {
       });
   };
 
-  const getStatusBadge = (status) => {
-    if (status.toLowerCase().includes("complete")) {
-      return (
-        <span className="order-status-badge completed">
-          <FaCheckCircle className="me-2" />
-          Completed
-        </span>
-      );
-    } else {
-      return (
-        <span className="order-status-badge in-progress">
-          <FaSpinner className="me-2" />
-          In Progress
-        </span>
-      );
+  const getStatusIcon = (status) => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'bi-hourglass-split';
+      case 'in progress':
+        return 'bi-arrow-repeat';
+      case 'completed':
+        return 'bi-check-circle';
+      case 'cancelled':
+        return 'bi-x-circle';
+      default:
+        return 'bi-question-circle';
+    }
+  };
+
+  const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'pending';
+      case 'in progress':
+        return 'in-progress';
+      case 'completed':
+        return 'completed';
+      case 'cancelled':
+        return 'cancelled';
+      default:
+        return '';
     }
   };
 
@@ -122,7 +134,10 @@ const Orders = () => {
             <span className="order-product">{order.product}</span>
           </div>
           <div className="order-card-badges">
-            {getStatusBadge(order.current_stage)}
+            <span className={`status-badge ${getStatusClass(order.current_stage)}`}>
+              <i className={`bi ${getStatusIcon(order.current_stage)}`}></i>
+              {order.current_stage}
+            </span>
             <FaChevronDown className={`expand-icon ${isExpanded ? 'expanded' : ''}`} />
           </div>
         </div>
@@ -135,6 +150,19 @@ const Orders = () => {
           <div className="order-detail-item">
             <span className="detail-label">Quantity:</span>
             <span className="detail-value">{order.quantity}</span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">Created Date:</span>
+            <span className="detail-value">
+              <i className="bi bi-calendar-event me-1"></i>
+              {new Date(order.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </span>
           </div>
           <div className="order-detail-actions">
             <button
@@ -237,6 +265,7 @@ const Orders = () => {
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Status</th>
+                        <th>Created Date</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -247,7 +276,24 @@ const Orders = () => {
                           <td>{order.order_number}</td>
                           <td>{order.product}</td>
                           <td>{order.quantity}</td>
-                          <td>{getStatusBadge(order.current_stage)}</td>
+                          <td>
+                            <span className={`status-badge ${getStatusClass(order.current_stage)}`}>
+                              <i className={`bi ${getStatusIcon(order.current_stage)}`}></i>
+                              {order.current_stage}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="created-date">
+                              <i className="bi bi-calendar-event me-1"></i>
+                              {new Date(order.createdAt).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </span>
+                          </td>
                           <td className="d-flex gap-2">
                             <button
                               onClick={() => fetchOrderSteps(order.id)}
